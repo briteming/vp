@@ -1,0 +1,222 @@
+---
+title: "Các lệnh Linux cơ bản"
+publishedAt: "2024-12-22"
+summary: "Danh sách các lệnh Linux cơ bản giúp bạn quản lý hệ thống"
+---
+
+### 1. Quản lý tệp và thư mục 
+
+1. Hiển thị danh sách tệp/thư mục:
+```bash
+ls
+ls -l       # Hiển thị chi tiết
+ls -a       # Bao gồm cả tệp ẩn
+```
+2. Di chuyển đến thư mục khác:
+```bash
+cd /path/to/directory
+cd ..       # Di chuyển lên thư mục cha
+cd          # Di chuyển về thư mục home
+```
+3. Tạo thư mục mới:
+```bash
+mkdir <ten_thu_muc>
+mkdir -p <thu_muc_cha>/<thu_muc_con>  # Tạo cả thư mục cha và con
+```
+4. Xóa tệp/thư mục:
+```bash
+rm <ten_tep>        # Xóa tệp
+rm -r <ten_thu_muc> # Xóa thư mục
+rm -rf <ten_thu_muc>      # Bỏ qua xác nhận
+```
+5. Sao chép tệp/thư mục:
+```bash
+cp <ten_tep> <duong_dan_moi>        # Sao chép tệp
+cp -r <ten_thu_muc> <duong_dan_moi> # Sao chép thư mục
+```
+6. Di chuyển hoặc đổi tên tệp/thư mục:
+```bash
+mv <ten_cu> <ten_moi>       # Đổi tên tệp/thư mục
+mv <ten_tep> <duong_dan_moi>        # Di chuyển tệp/thư mục
+```
+7. Hiển thị đường dẫn thư mục hiện tại:
+```bash
+pwd
+```
+8. Hiển thị nội dung tệp văn bản:
+```bash
+cat <ten_tep>
+# Hiển thị 10 dòng cuối cùng
+tail <ten_tep>
+# Hiển thị 10 dòng đầu tiên
+head <ten_tep>
+# Hiển thị nội dung từ dòng 5
+tail -n +5 <ten_tep>
+```
+9. Tìm kiếm tệp/thư mục:
+```bash
+find /path/to/search -name <ten_tep>
+# Tìm tệp theo tên
+find /path/to/search -type f
+# Tìm thư mục theo tên
+find /path/to/search -type d
+```
+### 2. Quản lý quyền truy cập
+
+1. Hiển thị quyền truy cập của tệp/thư mục:
+```bash
+ls -l
+```
+2. Thay đổi quyền truy cập:
+- 4: Read (r)
+- 2: Write (w)
+- 1: Execute (x)
+Quyền được cộng dồn. Ví dụ:
+=> 7 = 4 + 2 + 1 → đọc (r) + ghi (w) + thực thi (x).
+=> 5 = 4 + 0 + 1 → đọc (r) + thực thi (x).
+```bash
+# Cấp quyền đọc, ghi, thực thi cho tất cả mọi người
+chmod 755 <ten_tep> 
+chmod -R 755 <ten_thu_muc> 
+```
+- Ý nghĩa của từng nhóm người dùng
+*Chữ số đầu tiên (7): Quyền dành cho chủ sở hữu (owner).
+*Chữ số thứ hai (5): Quyền dành cho nhóm (group).
+*Chữ số thứ ba (5): Quyền dành cho người dùng khác (others).
+
+3. Thay đổi chủ sở hữu và nhóm của tệp/thư mục:
+```bash
+chown <ten_nguoi_dung> <ten_tep>
+chown -R <ten_nguoi_dung> <ten_thu_muc> # Thay đổi chủ sở hữu cho tất cả tệp/thư mục con
+```
+```bash
+chgrp <ten_nhom> <ten_tep> # Thay đổi nhóm
+chgrp -R <ten_nhom> <ten_thu_muc> # Thay đổi nhóm cho tất cả tệp/thư mục con
+```
+### 3. Quản lý quá trình
+
+1. Hiển thị danh sách quá trình đang chạy:
+```bash
+ps
+```
+2. Hiển thị chi tiết quá trình:
+```bash
+ps aux
+```
+3. Tìm kiếm quá trình:
+```bash
+ps aux | grep <ten_qua_trinh>
+```
+4. Dừng quá trình:
+```bash
+kill <pid>
+```
+5. Dừng tất cả quá trình:
+```bash
+killall <ten_qua_trinh>
+```
+6. Tắt máy:
+```bash
+shutdown -h now
+```
+
+### 4. Quản lý gói phần mềm
+
+1. Cài đặt gói phần mềm:
+```bash
+sudo apt-get install <ten_goi>
+```
+2. Cập nhật danh sách gói phần mềm:
+```bash
+sudo apt-get update
+```
+3. Cập nhật gói phần mềm:
+```bash
+sudo apt-get upgrade
+```
+4. Xóa gói phần mềm:
+```bash
+sudo apt-get remove <ten_goi>
+```
+5. Xóa gói phần mềm và dữ liệu cấu hình:
+```bash
+sudo apt-get purge <ten_goi>
+```
+### 5. Quản lý mạng
+
+1. Hiển thị địa chỉ IP:
+```bash
+ip addr show
+```
+2. Hiển thị bảng định tuyến:
+```bash
+ip route show
+```
+3. Kiểm tra kết nối mạng:
+```bash
+ping <dia_chi_ip>
+```
+4. Kiểm tra cổng mạng:
+```bash
+telnet <dia_chi_ip> <so_cổng>
+```
+5. Hiển thị danh sách cổng mạng đang mở:
+```bash
+netstat -tuln
+```
+6. Hiển thị danh sách cổng mạng đang kết nối:
+```bash
+netstat -tulnp
+```
+
+### 6. Thao tác với hệ thống
+
+1. Hiển thị thư mục hiện tại:
+```bash
+pwd
+```
+2. Thay đổi mật khẩu người dùng:
+```bash
+passwd
+```
+3. Chuyển quyền root:
+```bash
+sudo su
+```
+4. Đăng xuất:
+```bash
+exit
+```
+5. Đăng nhập vô user khác:
+```bash
+su - <ten_user>
+```
+6. Hiển thị thông tin hệ thống:
+```bash
+uname -a
+```
+7. Hiển thị thông tin CPU:
+```bash
+cat /proc/cpuinfo
+```
+8. Hiển thị thông tin RAM:
+```bash
+cat /proc/meminfo
+```
+9. Hiển thị thông tin ổ cứng:
+```bash
+df -h
+```
+10. Hiển thị thông tin dung lượng ổ cứng:
+```bash
+du -sh
+```
+11. Hiển thị thông tin dung lượng ổ cứng của thư mục:
+```bash
+du -sh /path/to/directory
+```
+12. Hiển thị tiến trình đang chạy:
+```bash
+top
+ps aux
+```

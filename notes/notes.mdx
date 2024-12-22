@@ -5,6 +5,114 @@ summary: "My first post on my new blog."
 ---
 
 ### Ghi chú
+<details>
+<summary>
+    <span style={{cursor:"pointer"}}> (NOTE 01 18-06-2024) - Cách deploy ứng dụng nextjs lên server VPS với github action </span>
+</summary>
+<div class="description">
+### 1 Tạo action trong github
+Bước 1: Mở github vào repository của bạn muốn deploy vô setting > Actions > Runners > Add runner 
+- Khi đó bạn sẽ thấy các lệnh được hiển thị bạn để đó và bắt đầu vô vps
+Bước 2: Vào VPS và tạo thư mục lưu trữ ứng dụng của bạn
+```bash
+cd ~
+mkdir demitech.vuvandinh.id.vn
+```
+> Lưu ý: demitech.vuvandinh.id.vn là tên domain của bạn hoặc bạn có thể đặt bất cứ tên gì để dễ nhận biết
+
+Bước 3: Chạy các lệnh ở bước 1 trong thư mục vừa tạo
+```bash
+# Bạn sẽ bỏ qua bước này và để mặc định
+Enter the name of the runner group to add this runner to: 
+# Nhập tên runner bạn muốn 
+Enter the name of runner: [press Enter for interdata19082028] demitech.vuvandinh.id.vn
+# Chọn định dạng deploy của bạn
+This runner will have the following labels: 'self-hosted', 'Linux', 'X64'
+# Thì hãy chọn self-hosted và nhấn enter
+Enter name of work folder: [press Enter for _work]
+# Nhập tên thư mục bạn muốn lưu trữ nên để mặc định
+```
+Bước 4: Cấu hình runner làm dịch vụ
+```bash
+./svc.sh install
+``` 
+Bước 5: Khởi động dịch vụ
+```bash
+./svc.sh start
+```
+> Lưu ý: Nếu lệnh trên bị lỗi hay kèm thêm sudo trước lệnh
+
+Bước 6: Kiểm tra trạng thái của dịch vụ
+```bash
+./svc.sh status
+```
+Bước 7: Kiểm tra trạng thái của dịch vụ trong github
+Vô github vào lại runner nếu thấy trạng thái là idle là thành công
+
+Bước 8: Tạo file action trong github chọn new workflow vào thư mục .github/workflows tạo file nodejs.yml
+```bash
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ] # Thay đổi branch của bạn muốn khi push lên sẽ thay đổi
+  pull_request:
+    branches: [ "main" ]
+xo
+jobs:
+  build:
+
+    runs-on: self-hosted # Thay đổi runner của bạn như bước 3 mình đã chọn self-hosted
+
+    strategy:
+      matrix:
+        node-version: [18.x] # Thay đổi phiên bản nodejs của bạn
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+```
+</div>
+</details>
+
+<details>
+<summary>
+    <span style={{cursor:"pointer"}}> (NOTE 01 18-06-2024) - Các link website hay </span>
+</summary>
+<div class="description">
+    1.https://dev.to/olucasandrade/10-awesome-github-repositories-that-everyone-should-know-2pcp?ref=dailydev
+</div>
+</details>
+
+<details style={{cursor:"pointer"}}>
+<summary >(NOTE 03 09-10-2022) - Tạo Database trên VPS và cấp quyền truy cập cho máy tính từ xa</summary>
+<div class="description">
+#### 1. Cấu hình github action ci/cd 
+```bash
+./svc.sh stop
+```
+```bash
+./svc.sh start
+```
+```bash
+    ./svc.sh install
+```
+```bash
+./svc.sh status
+```
+
+</div>
+</details>
 <details style={{cursor:"pointer"}}>
 <summary >(NOTE 03 09-10-2022) - Tạo Database trên VPS và cấp quyền truy cập cho máy tính từ xa</summary>
 <div class="description">
@@ -109,7 +217,7 @@ summary: "My first post on my new blog."
     ```bash
     php artisan make:middleware CheckAge
     ```
-### Làm việc với database
+#### Làm việc với database
     6. Tạo một migration mới
     ```bash
     php artisan make:migration create_posts_table
