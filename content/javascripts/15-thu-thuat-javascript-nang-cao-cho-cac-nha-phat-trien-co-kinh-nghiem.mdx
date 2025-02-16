@@ -1,0 +1,136 @@
+---
+title: "15 Thủ thuật JavaScript nâng cao cho các nhà phát triển có kinh nghiệm"
+publishedAt: "2024-10-16"
+summary: "JavaScript không chỉ là một ngôn ngữ lập trình phổ biến mà còn ẩn chứa nhiều kỹ thuật mạnh mẽ giúp tối ưu hiệu suất và cải thiện chất lượng mã nguồn. Trong bài viết này, chúng ta sẽ khám phá 15 thủ thuật JavaScript nâng cao giúp bạn viết code gọn gàng, tối ưu và chuyên nghiệp hơn. "
+---
+
+Để tiến sâu hơn trong lập trình với ngôn ngữ JavaScript, các bạn nên tích luỹ thêm các kiến thức về các design patterns để giúp code tốt, có cấu trúc và có tổ chức rõ ràng hơn.
+Trong bài viết này, chúng ta sẽ cùng khám phá một số Design patterns thường được sử dụng trong JavaScript.
+
+### 1. Nullish Coalescing (??)
+
+`Khi nào sử dụng:` Sử dụng ?? để gán giá trị mặc định nếu toán hạng bên trái là null hoặc không xác định.
+Ví dụ:
+```js
+const username = user.name ?? 'Guest';
+console.log(username); // If user.name is null or undefined, output: 'Guest'
+```
+### 2. Optional Chaining (?.)
+`Khi nào nên sử dụng:` Truy cập các thuộc tính lồng nhau sâu mà không cần kiểm tra từng cấp. Ví dụ nếu bạn có một đối tượng json được lồng nhau đúng cách, hãy sử dụng chuỗi tùy chọn để lấy các giá trị và tránh lỗi thiếu thuộc tính.
+
+Ví dụ:
+```js
+const address = user?.contact?.address?.city; 
+console.log(address); // Avoids runtime error if properties are missing
+```
+### 3. Template Literals
+`Khi nào nên sử dụng:` Đơn giản hóa nội suy chuỗi và chuỗi nhiều dòng.
+Ví dụ:
+```js
+var username = "saurabh"
+var entries = 1567
+const message = `Hello, ${username}!, Welcome to dashboard you have ${entries} left`;
+```
+### 4. Default Parameters
+`Khi nào nên sử dụng:` Gán các giá trị mặc định cho các đối số chức năng.
+Ví dụ:
+```js
+function greet(name = 'Guest') {
+    console.log(`Hello, ${name}!`);
+}
+```
+### 5. Array Spread Operator (...)
+`Khi nào nên sử dụng:` Sao chép hoặc hợp nhất mảng hai hoặc nhiều mảng dễ dàng.
+Ví dụ:
+```js
+const newArray = [...array1, ...array2];
+```
+### 6. Array Filtering
+`Khi nào nên sử dụng:` Trích xuất các yếu tố dựa trên một điều kiện. Lọc bên trong và mảng.
+Ví dụ:
+```js
+const adults = users.filter(user => user.age >= 18);
+```
+### 7. Array Mapping
+`Khi nào nên sử dụng:` Biến đổi các phần tử mảng. Lấy giá trị từ json vào một danh sách mảng.
+```js
+const names = users.map(user => user.name);
+```
+Tên mảng sẽ có tất cả các tên từ danh sách người dùng.
+### 8. Debouncing
+`Khi nào nên sử dụng:` Giới hạn tần suất thực thi một hàm.
+Ví dụ:
+```js
+const debounce = (func, delay) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  };
+};
+```
+### 9. Throttling
+`Khi nào nên sử dụng:` Kiểm soát tần suất thực thi chức năng theo thời gian.
+Ví dụ:
+```js
+const throttle = (func, limit) => {
+  let lastFunc;
+  let lastRan;
+  return (...args) => {
+    if (!lastRan) {
+      func(...args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(() => {
+        if (Date.now() - lastRan >= limit) {
+          func(...args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
+```
+### 10. Promise.all
+`Khi nào nên sử dụng:` Xử lý nhiều lời hứa song song.
+Ví dụ:
+```js
+const results = await Promise.all([fetchData1(), fetchData2()]);
+```
+### 11. Memoization
+`Khi nào nên sử dụng:` Chức năng bộ nhớ đệm giúp thực hiện các cuộc gọi lặp lại nhanh hơn.
+Ví dụ:
+```js
+const memoize = fn => {
+  const cache = {};
+  return (...args) => {
+    const key = JSON.stringify(args);
+    if (!cache[key]) cache[key] = fn(...args);
+    return cache[key];
+  };
+};
+```
+### 12. String Methods
+`WHE:` Sử dụng startswith, endswith, bao gồm chuỗi để thực hiện các điều kiện như thời tiết Một chuỗi bắt đầu bằng một chuỗi con hoặc kết thúc hoặc không chứa.
+Ví dụ:
+```js
+if (str.startsWith('Hello')) console.log('Greeting detected');
+```
+### 13. Number Methods
+Khi nào nên sử dụng: Chuyển đổi số an toàn.
+```js
+const num = Number.parseInt('42', 10);
+```
+### 14. Intl for Formatting
+Mẹo: Sử dụng INTL cho định dạng tiền tệ, ngày và số.
+Ví dụ:
+```js
+const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+console.log(formatter.format(1000)); // $1,000.00
+```
+### 15. Set
+`Khi nào sử dụng:`Lưu trữ các giá trị duy nhất.
+```js
+const unique = new Set([1, 2, 3, 1]);
+```
