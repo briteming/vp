@@ -12,13 +12,14 @@ import { AnimatedShinyTextCV } from "@/components/ui/shiny";
 import { DATA } from "@/data/resume";
 import { ArrowRightIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   const { theme } = useTheme();
+  const link = useMemo(() => DATA.link_cv || "", [DATA.link_cv]);
   const [color, setColor] = useState("#ffffff");
   useEffect(() => {
     setColor(theme === "dark" ? "#ffffff" : "#000000");
@@ -37,12 +38,17 @@ export default function Page() {
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <BlurFade delay={BLUR_FADE_DELAY}>
-            <AnimatedShinyTextCV text="Xem thêm về tôi với CV"></AnimatedShinyTextCV>
+            <AnimatedShinyTextCV text="Xem thêm về tôi với CV" link={link}>
+
+            </AnimatedShinyTextCV>
           </BlurFade>
           <div className="gap-2 flex justify-between">
             <div className="flex-col flex flex-1 space-y-1.5">
               <BlurFade delay={BLUR_FADE_DELAY}>
-                <SparklesText className="text-[35px] sm:text-[40px]" text="Xin chào, Tôi là Định 👋" />
+                <SparklesText
+                  className="text-[35px] sm:text-[40px]"
+                  text="Xin chào, Tôi là Định 👋"
+                />
               </BlurFade>
               <BlurFadeText
                 className="max-w-[600px] text-justify sm:text-start mt-2 md:text-md"
@@ -50,9 +56,12 @@ export default function Page() {
                 text={DATA.description}
               />
             </div>
-            <BlurFade className="after:bg-gray-300 after:sm:hidden after:block after:absolute after:left-1/2 after:-translate-x-1/2 after:top-[50%] after:z-[-1] z-10 after:w-[2px] after:h-1/2 relative after:rounded-full" delay={BLUR_FADE_DELAY}>
+            <BlurFade
+              className="after:bg-gray-300 after:sm:hidden after:block after:absolute after:left-1/2 after:-translate-x-1/2 after:top-[50%] after:z-[-1] z-10 after:w-[2px] after:h-1/2 relative after:rounded-full"
+              delay={BLUR_FADE_DELAY}
+            >
               <Avatar className="size-28 border">
-                <AvatarImage alt={DATA.name}   src={DATA.avatarUrl} />
+                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
                 <AvatarFallback>{DATA.initials}</AvatarFallback>
               </Avatar>
             </BlurFade>
@@ -178,7 +187,7 @@ export default function Page() {
           </div>
         </div>
       </section>
-     
+
       <section id="projects">
         <div className="space-y-12 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
@@ -199,29 +208,6 @@ export default function Page() {
           <div className=" max-w-[800px] mx-auto">
             <MarqueeGithub></MarqueeGithub>
           </div>
-        </div>
-      </section>
-      <section id="contact">
-        <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
-          <BlurFade delay={BLUR_FADE_DELAY * 16}>
-            <div className="space-y-3">
-              <div className="capitalize inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
-                Liên hệ
-              </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Nhắn Tin Với Tôi
-              </h2>
-              <p className="text-center text-sm text-gray-600">
-                Nếu bạn có bất kỳ câu hỏi nào hoặc muốn trao đổi về cơ hội hợp
-                tác, vui lòng liên hệ với tôi qua các kênh sau:
-              </p>
-              <div className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                <Markdown className="text-pretty text-center leading-7 font-sans text-sm  dark:prose-invert">
-                  {DATA.contact.text}
-                </Markdown>
-              </div>
-            </div>
-          </BlurFade>
         </div>
       </section>
     </main>

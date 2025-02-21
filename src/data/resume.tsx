@@ -1,12 +1,11 @@
 import { Icons } from "@/components/icons";
-import {
-  HomeIcon,
-  NotebookIcon,
-  Code,
-  PencilLine,
-} from "lucide-react";
+// import aviatekImg from ""
+import { HomeIcon, NotebookIcon, Code, PencilLine } from "lucide-react";
 
 export const DATA = {
+  updated_at: "Cập nhật lần cuối: 21/02/2025",
+  link_cv:
+    "https://www.canva.com/design/DAGfhyA9Znw/96peSQWOoS_jsnbpVdyx8Q/view?utm_content=DAGfhyA9Znw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h134ba3c6d0",
   name: "Vũ Văn Định",
   initials: "DV",
   url: "https://vuvandinh.id.vn",
@@ -74,7 +73,7 @@ Với mục tiêu liên tục phát triển và đạt được những thành t
 - **Email:** [vuvandinh203@gmail.com](mailto:vuvandinh203@gmail.com)
 - **GitHub:** [github.com/vuvandinh123](https://github.com/vuvandinh123)
 - **LinkedIn:** [linkedin.com/in/vuvandinh203](https://linkedin.com/in/vuvandinh203)
-- **Số điện thoại:** +84 333 583 800 (nếu cần)
+- **Số điện thoại:** +84 333 583 800
 
 Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổi thêm về các dự án cũng như cơ hội hợp tác.
     `,
@@ -82,11 +81,28 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
 
   work: [
     {
-      company: "Aviatek",
-      badges: ["Fullstack Developer", "Remote"],
+      company: "Ngôi Sao 5S",
+      badges: ["Laravel", "PHP", "MySQL"],
       href: "https://aviatek.com.vn",
       location: "Remote",
-      title: "Software Engineer",
+      title: "Laravel Intern",
+      logoUrl: "uploads/5s.png",
+      start: "Tháng 8 2024",
+      end: "Tháng 2 2025",
+      description: `
+      Phát triển và triển khai giao diện website dựa trên thiết kế từ Figma/PSD, đảm bảo tính phản hồi và tương thích trên nhiều trình duyệt.
+      Xây dựng các tính năng website bằng framework Laravel, bao gồm quản lý người dùng, quản lý tài khoản và thanh toán trực tuyến.
+      Phát triển và tùy chỉnh plugin WordPress theo yêu cầu.
+      Tối ưu hiệu suất website và SEO trên trang.
+      Triển khai và quản lý ứng dụng bằng Docker, PM2 và GitLab CI/CD.
+      `,
+    },
+    {
+      company: "Aviatek",
+      badges: ["React.js", "Node.js", "MySQL"],
+      href: "https://aviatek.com.vn",
+      location: "Remote",
+      title: "Remote",
       logoUrl: "https://aviatek.com.vn/assets/logo2-6PtbS5Th.png",
       start: "Tháng 5 2024",
       end: "Tháng 7 2024",
@@ -95,9 +111,9 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
     {
       company: "Cafebizland",
       href: "https://cafebizland.com",
-      badges: ["Wordpress", "Remote"],
+      badges: ["Wordpress"],
       location: "Remote",
-      title: "Software Engineer",
+      title: "Remote",
       logoUrl:
         "https://cafebizland.com/wp-content/uploads/2023/05/cropped-cropped-favi-192x192.jpg",
       start: "Tháng 12 2023",
@@ -142,16 +158,15 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
           icon: <Icons.globe className="size-3" />,
         },
       ],
-      image: "",
-      video:
-        "https://res.cloudinary.com/dwvttgtcw/video/upload/v1724353560/Screencast_from_23-08-2024_02_03_02_kywgch.webm",
+      image: "/uploads/aviatek.png",
+      video: "https://www.youtube.com/embed/KXmJ7kHSWW0?si=0mhR4KZbm7PuVSDM",
     },
     {
       title: "Website thương mại điện tử B2C",
       href: "https://github.com/vuvandinh123/CLIENT_REACTJS_VVD_SHOP_V1",
       dates: "Tháng 12 2023 - Tháng 7 2024",
       active: true,
-      description: `Dự Án Thương Mại Điện Tử BTC là một nền tảng bán hàng trực tuyến toàn diện, cho phép chủ cửa hàng quản lý sản phẩm và đơn hàng, người mua hàng thực hiện giao dịch, và quản trị viên điều hành hệ thống. Được phát triển bằng Node.js, React.js, và MySQL, dự án nhằm tối ưu hóa quy trình kinh doanh và nâng cao trải nghiệm người dùng.`,
+      description: `Dự Án Thương Mại Điện Tử B2C là một nền tảng bán hàng trực tuyến toàn diện, cho phép chủ cửa hàng quản lý sản phẩm và đơn hàng, người mua hàng thực hiện giao dịch, và quản trị viên điều hành hệ thống. Được phát triển bằng Node.js, React.js, và MySQL, dự án nhằm tối ưu hóa quy trình kinh doanh và nâng cao trải nghiệm người dùng.`,
       technologies: [
         "React.js",
         "Redux",
@@ -171,7 +186,7 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
       ],
       image:
         "https://res.cloudinary.com/dwvttgtcw/image/upload/v1724349344/zwq6l9zvb83bqiabpsdi.gif",
-      video: "",
+      video: "https://www.youtube.com/embed/Un4umy_b1gU?si=6b3NGLBNgk9QMe-O",
     },
     {
       title: "Website kiểm tra trắc nghiệm",
@@ -196,9 +211,8 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
           icon: <Icons.globe className="size-3" />,
         },
       ],
-      image: "",
-      video:
-        "https://res.cloudinary.com/dwvttgtcw/video/upload/v1724351852/vet5gk8oxfj8yeioqxe3.webm",
+      image: "/uploads/hitc.png",
+      video: "https://www.youtube.com/embed/VbKQVGNKasY?si=P8I3ITzK-QfY9cxt",
     },
     {
       title: "Website hiển thị và đặt lịch dán decals",
@@ -221,10 +235,9 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
           icon: <Icons.globe className="size-3" />,
         },
       ],
-      image: "",
+      image: "/uploads/decal.png",
       video:
         "https://res.cloudinary.com/dwvttgtcw/video/upload/v1724352504/xpqwg3rokja5nd7gislq.webm",
     },
   ],
-  
 } as const;

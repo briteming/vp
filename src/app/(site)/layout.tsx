@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import Contact from "@/containers/site/Contact";
 import { cn } from "@/lib/utils";
 
 export default function SiteLayout({
@@ -13,7 +14,9 @@ export default function SiteLayout({
       )}
     >
       {children}
+      <Contact />
       <Navbar />
+
     </div>
   );
 }

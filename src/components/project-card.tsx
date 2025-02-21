@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { BorderBeam } from "./magicui/border-beam";
+import { HeroVideoDialog } from "@/components/magicui/hero-video";
 
 interface Props {
   title: string;
@@ -44,33 +45,17 @@ export function ProjectCard({
   return (
     <Card
       className={
-        "flex relative flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full"
+        "flex  flex-col  border hover:shadow-lg transition-all duration-300 ease-out h-full"
       }
     >
-      <Link
-        href={href || "#"}
-        className={cn("block cursor-pointer", className)}
-      >
-        {video && (
-          <video
-            src={video}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="pointer-events-none mx-auto h-40 w-full object-cover object-top" // needed because random black line at bottom of video
-          />
-        )}
-        {image && (
-          <Image
-            src={image}
-            alt={title}
-            width={500}
-            height={300}
-            className="h-40 w-full overflow-hidden object-cover object-top"
-          />
-        )}
-      </Link>
+ 
+        <HeroVideoDialog
+          className="block "
+          animationStyle="top-in-bottom-out"
+          videoSrc={video || ""}
+          thumbnailSrc= {image || "https://startup-template-sage.vercel.app/hero-light.png"}
+          thumbnailAlt="Hero Video"
+        />
       <CardHeader className="px-2">
         <div className="space-y-1">
           <CardTitle className="mt-1 text-base">{title}</CardTitle>

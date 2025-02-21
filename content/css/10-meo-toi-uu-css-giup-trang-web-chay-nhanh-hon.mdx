@@ -1,0 +1,75 @@
+---
+title: "10 mẹo tối ưu CSS giúp trang web chạy nhanh hơn"
+publishedAt: "2025-02-21"
+summary: "Tối ưu CSS là một trong những bước quan trọng giúp trang web của bạn tải nhanh hơn, tăng trải nghiệm người dùng và đạt thứ hạng SEO tốt hơn. Dưới đây là 10 mẹo giúp bạn tối ưu CSS hiệu quả"
+---
+
+### 1. Gộp nhỏ và nén file CSS
+
+Thay vì sử dụng nhiều file CSS riêng lẻ, hãy sử dụng các công cụ như Webpack, Gulp, hoặc Parcel để tự động gộp và nén file CSS khi build. Điều này giúp giảm số request HTTP mà vẫn giữ được khả năng quản lý file dễ dàng trong quá trình phát triển.
+
+### 2. Tối ưu Kích Thước CSS
+
+Sử dụng các công cụ như CSSNano hoặc PurgeCSS để loại bỏ các quy tắc CSS không cần thiết và giảm kích thước file CSS. Điều này giúp giảm thời gian tải và tiết kiệm băng thông cho người dùng.
+
+### 3. Tránh CSS Đặt Inline
+
+CSS inline (viết trực tiếp trong HTML) làm tăng kích thước HTML và gây khó khăn trong việc quản lý. Hãy tách CSS ra file riêng để dễ bảo trì và tối ưu bộ nhớ đệm.
+
+### 4. Dùng CSS Variables
+
+Sử dụng CSS Variables giúp tối ưu hiệu suất, giảm tốn tài nguyên và giúp CSS linh hoạt hơn:
+
+```css
+:root {
+    --main-color: #3498db;
+}
+.button {
+    background-color: var(--main-color);
+}
+```
+### 5. Giảm Thiểu Sử Dụng !important
+
+Lạm dụng **!important** sẽ làm cho CSS khó quản lý và giảm hiệu suất. Hãy sửa lại cấu trúc CSS thay vì phụ thuộc vào !important. 
+
+### 6. Tránh Sử Dụng Quá Nhiều Selector Chồng Chéo
+Việc sử dụng selector quá dài và phức tạp sẽ làm tăng thời gian render. Hãy giữ CSS đơn giản và gọn gàng:
+
+```css
+/* Không tốt */
+div ul li a {
+    color: #3498db;
+}
+/* Tốt */
+.link {
+    color: #3498db;
+}
+```
+
+### 7. Dùng Flexbox và Grid Thay Cho Float
+
+`float` đã lỗi thời và không linh hoạt. Hãy dùng `Flexbox` hoặc `Grid` để tối ưu hiệu suất và giảm sự phức tạp của CSS.
+
+### 8. Prefetch, Preload Font và CSS
+
+Sử dụng `rel="preload"` hoặc `rel="prefetch"` giúp tải trước các tài nguyên quan trọng, giúp trang chạy nhanh hơn.
+
+Ví dụ:
+
+```html
+<link rel="preload" href="styles.css" as="style">
+<link rel="preload" href="font.woff2" as="font" type="font/woff2" crossorigin>
+```
+
+### 9. Sử Dụng CDN Cho CSS
+
+Dùng Content Delivery Network (CDN) giúp phân phối file CSS nhanh hơn và giảm tải cho máy chủ.
+
+### 10. Kiểm Tra & Tối ưu Liên Tục
+
+Dùng các công cụ như Google PageSpeed Insights hoặc Lighthouse để kiểm tra hiệu suất và cải thiện tối ưu hóa CSS liên tục.
+
+### Kết luận
+> Với 10 mẹo trên, bạn sẽ giúp trang web của mình tải nhanh hơn, nâng cao trải nghiệm người dùng và đạt thứ hạng SEO tốt hơn. Hãy bắt đầu tối ưu CSS ngay hôm nay!
+
+---

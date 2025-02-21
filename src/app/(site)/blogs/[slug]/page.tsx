@@ -91,6 +91,7 @@ export default async function Blog({ params, searchParams }: Props) {
     const post = await getData({ slug: params.slug, cat });
     return (
       <section id="blog">
+        
         <script
           type="application/ld+json"
           suppressHydrationWarning
