@@ -1,11 +1,13 @@
 import NotFound from "@/components/NotFound";
-import { getOnePost } from "@/data/blog";
+import { getBlogPosts, getOnePost } from "@/data/blog";
 import { DATA } from "@/data/resume";
 import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import ContentPost from "@/containers/posts/ContentPost";
+import Link from "next/link";
+import { ArrowRight, Undo2 } from "lucide-react";
 type Props = {
   params: {
     slug: string;
@@ -39,9 +41,7 @@ export async function generateMetadata({
       keywords,
     } = post.metadata;
 
-    let ogImage = image
-      ? `${image}`
-      : `${DATA.url}/og?title=${title}`;
+    let ogImage = image ? `${image}` : `${DATA.url}/og?title=${title}`;
 
     return {
       title,
@@ -82,6 +82,18 @@ async function getData({ slug, cat }: { slug: string; cat: string }) {
   if (!post) return notFound();
   return post;
 }
+async function getDataNext({ slug, cat }: { slug: string; cat: string }) {
+
+  const posts = await getBlogPosts({
+    limit: 10,
+    page: 1,
+    category: cat,
+    keyword: "",
+  });
+  const index = posts?.data.findIndex((post: any) => post.slug === slug);
+  if (index === posts.total - 1) return posts?.data[0];
+  return posts?.data[index + 1];
+}
 export default async function Blog({ params, searchParams }: Props) {
   try {
     const cat = (searchParams?.cat as string) || "";
@@ -89,9 +101,18 @@ export default async function Blog({ params, searchParams }: Props) {
       return notFound();
     }
     const post = await getData({ slug: params.slug, cat });
+    const nextPost = await getDataNext({ slug: params.slug, cat });
     return (
       <section id="blog">
-        
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/blogs" className="flex gap-2 items-center">
+            <Undo2 size={20} /> Quay lại
+          </Link>
+          <Link href={`/blogs/${nextPost?.slug}?cat=${cat}`} className="flex gap-2 items-center">
+            Bài tiếp theo
+            <ArrowRight size={20}></ArrowRight>
+          </Link>
+        </div>
         <script
           type="application/ld+json"
           suppressHydrationWarning
@@ -130,6 +151,8 @@ export default async function Blog({ params, searchParams }: Props) {
       </section>
     );
   } catch (error) {
+    console.log(error);
+
     return <NotFound />;
   }
 }
