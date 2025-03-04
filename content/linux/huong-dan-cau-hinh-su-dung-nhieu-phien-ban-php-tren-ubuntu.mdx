@@ -1,0 +1,64 @@
+---
+title: "Hướng Dẫn Cấu Hình Sử Dụng Nhiều Phiên Bản PHP Trên Ubuntu"
+publishedAt: "2025-03-04"
+summary: "Ubuntu cho phép bạn cài đặt nhiều phiên bản PHP bằng cách sử dụng kho lưu trữ của ondrej/php."
+---
+
+### 1. Cài Đặt Nhiều Phiên Bản PHP
+
+Ubuntu cho phép bạn cài đặt nhiều phiên bản PHP bằng cách sử dụng kho lưu trữ của ondrej/php. Thực hiện các bước sau:
+
+```bash
+sudo apt update # Cập nhật danh sách gói phần mềm
+sudo apt install software-properties-common # Cài đặt gói phần mềm
+sudo add-apt-repository ppa:ondrej/php # Thêm kho lưu trữ PHP
+sudo apt update # Cập nhật danh sách gói phần mềm
+```
+
+Sau khi thêm kho lưu trữ, bạn có thể cài đặt các phiên bản PHP mong muốn:
+
+```bash
+sudo apt install php7.4 php8.0 php8.1 php8.2 # Cài đặt PHP 7.4, 8.0, 8.1, 8.2
+```
+### 2. Kiểm Tra Phiên Bản PHP Hiện Tại
+
+Sau khi cài đặt, kiểm tra phiên bản PHP đang sử dụng mặc định:
+
+```bash
+php -v
+```
+### 3. Cài Đặt Các Mô-đun PHP
+
+Mỗi phiên bản PHP có các mô-đun riêng biệt, vì vậy bạn cần cài đặt chúng tùy theo nhu cầu sử dụng. Ví dụ, để cài đặt các mô-đun phổ biến cho PHP 8.1:
+
+```bash
+sudo apt install php8.1-mbstring php8.1-xml php8.1-curl php8.1-mysql php8.1-zip php8.1-bcmath
+```
+Bạn có thể thay thế php8.1 bằng phiên bản PHP khác tùy theo nhu cầu.
+
+### 4. Chuyển Đổi Phiên Bản PHP
+
+Bạn có thể thay đổi phiên bản PHP mặc định bằng cách sử dụng update-alternatives:
+
+```bash
+sudo update-alternatives --config php
+```
+Danh sách các phiên bản PHP có sẵn sẽ xuất hiện, bạn chỉ cần nhập số tương ứng với phiên bản muốn sử dụng và nhấn Enter.
+
+Ví dụ, để sử dụng PHP 8.2 làm mặc định:
+
+```bash
+sudo update-alternatives --set php /usr/bin/php8.2 # Chuyển đổi sang PHP 8.2
+```
+Sau đó kiểm tra lại:
+
+```bash
+php -v
+```
+
+### 5. Kết Luận
+
+Bằng cách làm theo các bước trên, bạn có thể dễ dàng cài đặt và sử dụng nhiều phiên bản PHP trên Ubuntu, đảm bảo tính linh hoạt cho các dự án khác nhau.
+
+
+
