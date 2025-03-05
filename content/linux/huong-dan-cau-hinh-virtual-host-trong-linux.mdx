@@ -1,0 +1,135 @@
+---
+title: "Hướng Dẫn Cấu Hình Virtual Host Trong Linux"
+publishedAt: "2025-03-06"
+summary: "Virtual Host (VHost) cho phép bạn chạy nhiều website trên cùng một server, sử dụng cùng một địa chỉ IP nhưng với các tên miền khác nhau. Bài viết này hướng dẫn cách tạo Virtual Host trên Linux với Apache và Nginx."
+---
+
+### 1. Cấu Hình Virtual Host Trên Apache
+
+#### Bước 1: Cài đặt Apache:
+
+```bash
+sudo apt update && sudo apt install apache2 -y   # Ubuntu/Debian
+```
+
+#### Bước 2: Tạo thư mục chứa website:
+
+Giả sử bạn muốn tạo Virtual Host cho example.com, hãy tạo thư mục chứa website:
+```bash
+sudo mkdir -p /var/www/example.com/public_html # Tạo thư mục
+sudo chown -R $USER:$USER /var/www/example.com/public_html # Thay đổi quyền
+sudo chmod -R 755 /var/www/example.com 
+```
+
+Sau đó, tạo một file HTML để kiểm tra:
+
+```bash
+echo "<h1>Welcome to example.com</h1>" | sudo tee /var/www/example.com/public_html/index.html
+```
+#### Bước 3: Tạo Virtual Host File:
+
+Tạo file cấu hình VHost cho example.com:
+```bash
+sudo nano /etc/apache2/sites-available/example.com.conf
+```
+Nội dung file cấu hình:
+
+```bash
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /var/www/example.com/public_html
+
+    <Directory /var/www/example.com/public_html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/example.com_error.log
+    CustomLog ${APACHE_LOG_DIR}/example.com_access.log combined
+</VirtualHost>
+```
+#### Bước 4: Kích Hoạt Virtual Host:
+
+```bash
+sudo a2ensite example.com.conf
+sudo systemctl restart apache2   # Ubuntu/Debian
+sudo systemctl restart httpd     # CentOS/RHEL
+```
+#### Bước 5: Kiểm Tra Kết Quả:
+Thêm vào file hosts nếu chưa có domain thật: 
+
+```bash
+echo "127.0.0.1 example.com" | sudo tee -a /etc/hosts
+```
+Mở trình duyệt và truy cập http://example.com để kiểm tra.
+
+### 2. Cấu Hình Virtual Host Trên Nginx
+
+#### Bước 1: Cài đặt Nginx:
+
+```bash
+sudo apt update && sudo apt install nginx -y   # Ubuntu/Debian
+sudo yum install nginx -y 
+```
+#### Bước 2: Tạo Thư Mục Cho Website
+
+```bash
+sudo mkdir -p /var/www/example.com/html
+sudo chown -R $USER:$USER /var/www/example.com/html
+sudo chmod -R 755 /var/www/example.com
+```
+Tạo file index.html:
+
+```bash
+echo "<h1>Welcome to example.com</h1>" | sudo tee /var/www/example.com/html/index.html
+```
+#### Bước 3: Tạo File Cấu Hình VHost:
+
+```bash
+sudo nano /etc/nginx/sites-available/example.com
+```
+Nội dung file cấu hình:
+
+```bash
+server {
+    listen 80;
+    server_name example.com www.example.com;
+    root /var/www/example.com/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+#### Bước 4: Kích Hoạt VHost:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+```
+#### Bước 5: Kiểm Tra Kết Quả:
+
+Thêm vào file hosts nếu chưa có domain thật:
+
+```bash
+echo "127.0.0.1 example.com" | sudo tee -a /etc/hosts
+```
+### Cấu hình file hosts nếu không có domain thật:
+
+Dù bạn dùng Apache hay Nginx, bạn cần chỉnh sửa file hosts để máy hiểu được tên miền cục bộ:
+
+```bash
+sudo nano /etc/hosts
+```
+Thêm dòng sau vào cuối file:
+
+```bash
+127.0.0.1   app-pascal.local
+```
+### Kết Luận
+
+Bài viết đã hướng dẫn cách tạo Virtual Host trên Linux với Apache và Nginx. Nếu bạn có nhiều website trên cùng một server, hãy sử dụng Virtual Host để dễ dàng quản lý và tối ưu hiệu suất.
