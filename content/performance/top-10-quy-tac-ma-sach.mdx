@@ -1,0 +1,39 @@
+---
+title: "Top 10 quy tắc mã sạch"
+publishedAt: "2025-03-06"
+summary: "Theo cuốn sách “Clean Code” của Uncle Bob, ông đã đưa ra một số hướng dẫn và quy tắc mà các lập trình viên nên tuân theo. Điều này đặc biệt quan trọng đối với những lập trình viên ít kinh nghiệm. Khi có nhiều kinh nghiệm hơn, chúng ta có thể phá vỡ một số quy tắc hoặc điều chỉnh chúng với lý do hợp lý."
+image: "https://info.ehl.edu/hubfs/employee-performance-improvement.jpeg"
+---
+
+Theo cuốn sách “Clean Code” của Uncle Bob, ông đã đưa ra một số hướng dẫn và quy tắc mà các lập trình viên nên tuân theo. Điều này đặc biệt quan trọng đối với những lập trình viên ít kinh nghiệm. Khi có nhiều kinh nghiệm hơn, chúng ta có thể phá vỡ một số quy tắc hoặc điều chỉnh chúng với lý do hợp lý.
+### 1. Không sử dụng comment trong code
+Một đoạn code tốt không cần comment. Các biến, phương thức và bất kỳ thành phần nào khác như thuộc tính nên có tên dễ hiểu, mô tả rõ ràng.
+
+> “Comment trong code là một dấu hiệu xấu, hãy loại bỏ chúng.”
+
+### 2. Xóa các đoạn comment hoặc code không còn được sử dụng
+Bất kỳ đoạn code hoặc comment nào không còn được sử dụng đều nên bị xóa. Nơi tốt nhất để tìm lại chúng là hệ thống quản lý phiên bản (VCS).
+
+### 3. Kiểm tra kỹ các hành vi ở ranh giới
+Các ranh giới trong hệ thống nên luôn được kiểm thử đơn vị. Không nên giả định bất kỳ hành vi nào.
+### 4. Ưu tiên điều kiện dương
+Các câu điều kiện dương dễ đọc hơn các câu điều kiện phủ định.
+### 5. Tuân thủ các nguyên tắc về kiến trúc, coding và thiết kế chuẩn
+Tất cả các quy tắc đã đặt ra về kiến trúc, coding và thiết kế nên được tuân thủ. Nên sử dụng các công cụ để đảm bảo tính chính xác.
+### 6. Đặt tên tốt và nhất quán
+Các biến, phương thức, class nên được đặt tên sao cho dễ hiểu từ góc nhìn của người gọi. Và phải đảm bảo tính nhất quán.
+### 7. Áp dụng nguyên tắc KISS (Keep It Simple, Stupid)
+Tránh sự phức tạp không cần thiết. Khi độ phức tạp tăng lên, một số thiết kế và đoạn code trong hệ thống trở nên vô dụng. Hãy giữ mọi thứ đơn giản nhất có thể.
+### 8. Sử dụng Exception thay vì mã lỗi
+Trong những trường hợp ngoại lệ, nên ném một Exception khi phương thức không thể thực hiện đúng mục đích của nó. Không nên trả về null hoặc mã lỗi.
+### 9. Giữ mọi thứ nhỏ gọn
+Cả kích thước của class và method đều quan trọng. Một method lý tưởng nên nhỏ gọn, tốt nhất là dưới 100 dòng code.
+### 10. Nguyên tắc “Boy Scout” – Hãy để code sạch hơn khi bạn rời đi
+Hãy luôn cải thiện code khi bạn làm việc với nó. Đừng chờ đợi sự cho phép để refactor code.
+
+📖 Để biết thêm chi tiết, hãy đọc cuốn sách “Clean Code”.
+Ngoài ra, @ktiarad đã có một bài phân tích sâu hơn về chủ đề này.
+
+Cảm ơn bạn đã ghé qua! Hẹn gặp lại trong bài viết tiếp theo. 🚀
+
+👉 Bạn có thể tham khảo thêm bài viết nguồn [Top 10 Clean Code Rules](https://blog.stackademic.com/top-10-clean-code-rules-831fb34caff7).
