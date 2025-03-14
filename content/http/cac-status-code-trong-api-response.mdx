@@ -1,0 +1,50 @@
+---
+title: "Các Status Code Trong API Response"
+publishedAt: "2024-03-14"
+summary: "Khi làm việc với API, một trong những yếu tố quan trọng mà chúng ta cần quan tâm là status code (mã trạng thái HTTP) trong phản hồi từ server. Những mã này giúp chúng ta hiểu rõ hơn về kết quả của một request."
+---
+
+### 1. 1xx Informational responses (Mã trạng thái thông tin)
+Nhóm này chủ yếu mang tính thông báo, hiếm khi được sử dụng trong các API phổ biến.
+
+- **100** Continue: Server chấp nhận request ban đầu và client có thể tiếp tục gửi phần còn lại.
+- **101** Switching Protocols: Server đồng ý chuyển đổi giao thức theo yêu cầu của client.
+
+### 2. 2xx Success (Mã trạng thái thành công)
+Nhóm này thường được sử dụng để thông báo rằng request đã được xử lý thành công.
+
+- **200** OK: Request thành công.
+- **201** Created: Request đã được tạo thành công.
+- **202** Accepted: Request đã được chấp nhận để xử lý, nhưng chưa hoàn thành.
+- **204** No Content: Request đã được xử lý thành công, nhưng không có dữ liệu trả về.
+
+### 3. 3xx Redirection (Mã trạng thái chuyển hướng)
+Nhóm này thông báo rằng client cần thực hiện thêm hành động để hoàn thành request.
+
+- **301** Moved Permanently: Trang đã được chuyển sang một URL mới vĩnh viễn.
+- **302** Found: Trang đã được chuyển sang một URL mới tạm thời.
+- **304** Not Modified: Client sử dụng cache và không cần request lại.
+
+### 4. 4xx Client errors (Mã trạng thái lỗi từ client)
+Nhóm này thông báo rằng client đã gửi request không hợp lệ.
+
+- **400** Bad Request: Request không hợp lệ.
+- **401** Unauthorized: Client cần xác thực để truy cập.
+- **403** Forbidden: Client không được phép truy cập.
+- **404** Not Found: Resource không tồn tại.
+- **405** Method Not Allowed: Phương thức không được hỗ trợ.
+- **409** Conflict: Request xung đột với trạng thái hiện tại của server.
+- **422** Unprocessable Entity: Dữ liệu không hợp lệ.
+- **429** Too Many Requests: Client đã gửi quá nhiều request trong một khoảng thời gian.
+
+### 5. 5xx Server errors (Mã trạng thái lỗi từ server)
+Nhóm này thông báo rằng server đã gặp lỗi khi xử lý request.
+
+- **500** Internal Server Error: Server gặp lỗi không xác định.
+- **502** Bad Gateway: Server hoạt động như một cổng truy cập và nhận response không hợp lệ từ upstream server.
+- **503** Service Unavailable: Server không thể xử lý request vì quá tải hoặc bảo trì.
+- **504** Gateway Timeout: Server không nhận được response từ upstream server trong khoảng thời gian quy định.
+
+### Kết luận
+
+Hi vọng bài viết giúp bạn hiểu rõ hơn về các status code trong API response. Điều này giúp bạn xử lý các lỗi một cách hiệu quả và cung cấp thông báo phản hồi chính xác cho người dùng.
