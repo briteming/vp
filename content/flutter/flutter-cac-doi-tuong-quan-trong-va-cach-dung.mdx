@@ -1,0 +1,386 @@
+---
+title: "Flutter: Các Đối Tượng Quan Trọng và Cách Dùng"
+publishedAt: "2025-03-23"
+summary: "Hướng dẫn sử dụng các đối tượng quan trọng trong Flutter"
+---
+### 1. Giới thiệu
+Flutter là một framework phát triển ứng dụng di động đa nền tảng được phát triển bởi Google. Flutter sử dụng ngôn ngữ lập trình Dart để phát triển ứng dụng. Trong bài viết này, chúng ta sẽ tìm hiểu về các đối tượng quan trọng trong Flutter và cách sử dụng chúng.
+
+### 2. Widget
+Widget là một thành phần cơ bản trong Flutter, mọi thứ trong Flutter đều là một widget. Flutter cung cấp rất nhiều widget để xây dựng giao diện người dùng. Dưới đây là một số widget cơ bản:
+#### 1. Widget cơ bản
+1. **Text**: Hiển thị văn bản.
+```dart
+Text(
+  "Xin chào Flutter!",
+  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
+)
+```
+- `style`: Cung cấp các thuộc tính cho văn bản như kích thước, màu sắc, in đậm, ...
+- `textAlign`: Căn chỉnh văn bản (textAlign.center, textAlign.left, textAlign.right).
+2. **Image**: Hiển thị hình ảnh.
+```dart
+// Hiển thị hình ảnh từ URL
+Image.network('https://example.com/image.jpg')
+// Hiển thị hình ảnh từ asset
+Image.asset('assets/images/logo.png')
+```
+3. **Icon**: Hiển thị biểu tượng.
+```dart
+Icon(Icons.star, color: Colors.yellow, size: 24)
+```
+- `Icons.star`: Biểu tượng sao.
+- `color`: Màu sắc của biểu tượng.
+- `size`: Kích thước của biểu tượng.
+-  Lấy danh sách icon: https://fonts.google.com/icons
+4. **Button**: Hiển thị nút.
+```dart
+// Nút có hiệu ứng nổi bật khi nhấn
+ElevatedButton(
+  onPressed: () {
+    // Xử lý sự kiện khi nút được nhấn
+  },
+  child: Text('Click me'),
+)
+// TextButton: Nút không có hiệu ứng nổi bật
+TextButton(
+  onPressed: () {
+    // Xử lý sự kiện khi nút được nhấn
+  },
+  child: Text('Click me'),
+)
+// IconButton: Nút với biểu tượng
+IconButton(
+  onPressed: () {
+    // Xử lý sự kiện khi nút được nhấn
+  },
+  icon: Icon(Icons.add),
+)
+```
+- `onPressed`: Hàm xử lý sự kiện khi nút được nhấn.
+- `child`: Widget con của nút.
+#### 2. Widget Layout (Bố cục)
+1. Column & Row (Sắp xếp theo cột hoặc hàng)
+```dart
+Column(
+  mainAxisAlignment: MainAxisAlignment.center,  // Căn giữa theo chiều dọc
+  children: [
+    Text("Dòng 1"),
+    Text("Dòng 2"),
+  ],
+)
+Row(
+  mainAxisAlignment: MainAxisAlignment.center,  // Căn giữa theo chiều ngang
+  children: [
+    Text("Cột 1"),
+    Text("Cột 2"),
+  ],
+)
+```
+- `color`: Màu nền của container.
+- `child`: Widget con của container.
+2. **Container** (Định dạng khối)
+```dart
+Container(
+  width: 200,
+  height: 100,
+  color: Colors.blue,
+  child: Center(child: Text("Hello")),
+)
+```
+- `width`, `height`: Chiều rộng và chiều cao của container.
+- `color`: Màu nền của container.
+- `child`: Widget con của container.
+3. **Stack** (Chồng widget lên nhau)
+```dart
+Stack(
+  children: [
+    Container(width: 100, height: 100, color: Colors.blue),
+    Positioned(top: 20, left: 20, child: Icon(Icons.star, color: Colors.white)),
+  ],
+)
+```
+- `children`: Danh sách các widget con.
+- `Positioned`: Định vị vị trí của widget con.
+4.  **ListView** (Danh sách cuộn)
+```dart
+ListView(
+  children: [
+    ListTile(title: Text('Item 1')),
+    ListTile(title: Text('Item 2')),
+    ListTile(title: Text('Item 3')),
+  ],
+)
+```
+- `children`: Danh sách các widget con.
+- `ListTile`: Một dòng trong danh sách.
+#### 3. Widget Tương Tác (Interactive Widgets)
+1. **TextField** (Ô nhập liệu)
+```dart
+TextField(
+  decoration: InputDecoration(
+    labelText: 'Họ và tên',
+    hintText: 'Nhập họ và tên',
+  ),
+)
+```
+- `decoration`: Định dạng cho ô nhập liệu.
+- `labelText`: Nhãn của ô nhập liệu.
+- `hintText`: Gợi ý nhập liệu.
+2. **Checkbox** (Ô chọn)
+```dart
+Checkbox(
+  value: true,
+  onChanged: (value) {
+    // Xử lý sự kiện khi ô chọn thay đổi trạng thái
+  },
+)
+```
+- `value`: Trạng thái của ô chọn.
+- `onChanged`: Hàm xử lý sự kiện khi ô chọn thay đổi trạng thái.
+3. **Switch** (Nút bật/tắt)
+```dart
+Switch(
+  value: true,
+  onChanged: (value) {
+    // Xử lý sự kiện khi nút bật/tắt thay đổi trạng thái
+  },
+)
+```
+- `value`: Trạng thái của nút bật/tắt.
+- `onChanged`: Hàm xử lý sự kiện khi nút bật/tắt thay đổi trạng thái.
+4. **Slider** (Thanh trượt)
+```dart
+Slider(
+  value: 0.5,
+  onChanged: (value) {
+    // Xử lý sự kiện khi giá trị thanh trượt thay đổi
+  },
+)
+```
+- `value`: Giá trị của thanh trượt.
+- `onChanged`: Hàm xử lý sự kiện khi giá trị thanh trượt thay đổi.
+#### 4. State và State Management (Trạng thái và Quản lý trạng thái)
+Có 2 loại Widget quan trọng trong Flutter:
+- ✔ StatelessWidget - Không có trạng thái, UI cố định.
+- ✔ StatefulWidget - Có thể thay đổi trạng thái (ví dụ: bấm nút, nhập liệu).
+1. **StatelessWidget** (Widget không có trạng thái)
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text('Hello');
+  }
+}
+```
+> Dùng khi không cần thay đổi UI sau khi render.
+2. **StatefulWidget** (Widget có trạng thái)
+
+```dart
+class MyStatefulWidget extends StatefulWidget {
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  int count = 0;
+
+  void increment() {
+    setState(() {
+      count++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Giá trị: $count"),
+        ElevatedButton(onPressed: increment, child: Text("Tăng"))
+      ],
+    );
+  }
+}
+
+```
+> Dùng khi cần thay đổi UI sau khi render.
+### 3. Navigation (Chuyển giữa các màn hình)
+1. **Navigator**
+```dart
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => SecondScreen()),
+);
+```
+- `context`: Context của widget hiện tại.
+- `MaterialPageRoute`: Định tuyến
+2. Điều hướng quay lại
+```dart
+Navigator.pop(context);
+```
+- `context`: Context của widget hiện tại.
+### 4. Thông báo (Snackbar)
+```dart
+ScaffoldMessenger.of(context).showSnackBar(
+  SnackBar(content: Text('Xin chào!')),
+);
+```
+- `context`: Context của widget hiện tại.
+- `SnackBar`: Thông báo.
+
+### 5. Sự kiện (Event)
+1. **onPressed**
+```dart
+ElevatedButton(
+  onPressed: () {
+    // Xử lý sự kiện khi nút được nhấn
+  },
+  child: Text('Click me'),
+)
+```
+- `onPressed`: Hàm xử lý sự kiện khi nút được nhấn.
+2. **onChanged**
+```dart
+Checkbox(
+  value: true,
+  onChanged: (value) {
+    // Xử lý sự kiện khi ô chọn thay đổi trạng thái
+  },
+)
+```
+- `onChanged`: Hàm xử lý sự kiện khi ô chọn thay đổi trạng thái.
+3. **onSubmitted**
+```dart
+TextField(
+  onSubmitted: (value) {
+    // Xử lý sự kiện khi nhập liệu xong
+  },
+)
+```
+- `onSubmitted`: Hàm xử lý sự kiện khi nhập liệu xong.
+4. **onTap**
+```dart
+GestureDetector(
+  onTap: () {
+    // Xử lý sự kiện khi widget được nhấn
+  },
+  child: Text('Nhấn vào đây'),
+)
+```
+- `onTap`: Hàm xử lý sự kiện khi widget được nhấn.
+5. **onChanged**
+```dart
+Slider(
+  value: 0.5,
+  onChanged: (value) {
+    // Xử lý sự kiện khi giá trị thanh trượt thay đổi
+  },
+)
+```
+- `onChanged`: Hàm xử lý sự kiện khi giá trị thanh trượt thay đổi.
+6. GestureDetector (Xử lý Tap, Double Tap, Long Press)
+`GestureDetector` cho phép bắt nhiều sự kiện khác nhau:
+
+```dart
+GestureDetector(
+  onTap: () {
+    // Xử lý sự kiện khi widget được nhấn
+  },
+  onDoubleTap: () {
+    // Xử lý sự kiện khi widget được nhấn 2 lần
+  },
+  onLongPress: () {
+    // Xử lý sự kiện khi giữ widget lâu
+  },
+  child: Container(
+    width: 100,
+    height: 100,
+    color: Colors.blue,
+    child: Center(child: Text("Nhấn vào")),
+  ),
+)
+```
+- `onTap`: Hàm xử lý sự kiện khi widget được nhấn.
+- `onDoubleTap`: Hàm xử lý sự kiện khi widget được nhấn 2 lần.
+- `onLongPress`: Hàm xử lý sự kiện khi giữ widget lâu.
+7. Sự kiện vuốt (Swipe)
+Dùng GestureDetector để bắt Swipe:
+```dart
+GestureDetector(
+  onHorizontalDragUpdate: (details) {
+    // Xử lý sự kiện khi vuốt ngang
+  },
+  onVerticalDragUpdate: (details) {
+    // Xử lý sự kiện khi vuốt dọc
+  },
+  child: Container(
+    width: 100,
+    height: 100,
+    color: Colors.blue,
+    child: Center(child: Text("Vuốt")),
+  ),
+)
+```
+Ứng dụng thực tế:
+- Vuốt sang trái/phải để xóa item
+- Vuốt lên/xuống để mở menu
+
+8. Sự Kiện Scroll (Cuộn)
+Dùng ListView để bắt sự kiện cuộn:
+```dart
+ListView.builder(
+  itemCount: 100,
+  itemBuilder: (context, index) {
+    return ListTile(title: Text('Item $index'));
+  },
+  onNotification: (notification) {
+    if (notification is ScrollEndNotification) {
+      // Xử lý sự kiện khi cuộn đến cuối
+    }
+    return true;
+  },
+)
+```
+- `itemCount`: Số lượng item.
+- `itemBuilder`: Hàm tạo item.
+- `onNotification`: Hàm xử lý sự kiện cuộn.
+Dùng ScrollController để theo dõi cuộn:
+
+```Dart
+ScrollController _scrollController = ScrollController();
+
+@override
+void initState() {
+  super.initState();
+  _scrollController.addListener(() {
+    print("Cuộn tới vị trí: ${_scrollController.offset}");
+  });
+}
+
+@override
+void dispose() {
+  _scrollController.dispose();
+  super.dispose();
+}
+
+ListView(
+  controller: _scrollController,
+  children: List.generate(50, (index) => ListTile(title: Text("Mục $index"))),
+)
+```
+- `controller`: ScrollController để theo dõi cuộn.
+- `addListener`: Hàm xử lý sự kiện cuộn.
+- `dispose`: Hủy bỏ controller khi không cần thiết.
+
+Ứng dụng thực tế:
+- Ẩn hiện nút Lên đầu trang khi cuộn
+- Tải dữ liệu mới khi gần hết danh sách (Lazy Load)
+
+### 6. Tổng kết
+- ✔ Widget cơ bản: Text, Image, Icon, Button
+- ✔ Widget bố cục: Column, Row, Container, ListView, Stack
+- ✔ Widget tương tác: TextField, Checkbox, Switch, Slider
+- ✔ Stateful vs Stateless Widgets
+- ✔ Điều hướng giữa các màn hình
+
+Trong bài viết này, chúng ta đã tìm hiểu về các đối tượng quan trọng trong Flutter và cách sử dụng chúng. Flutter cung cấp rất nhiều widget để xây dựng giao diện người dùng, bạn có thể tìm hiểu thêm tại [Flutter Widget Catalog](https://flutter.dev/docs/development/ui/widgets).

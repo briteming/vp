@@ -12,23 +12,23 @@ export default function CardPost({ post, id }: { post: any; id: number }) {
       key={post?.slug}
     >
       <Link
-        className="flex flex-col space-y-1 mb-4"
         href={`/blogs/${post?.slug}?cat=${post?.metadata?.category}`}
+        className="w-full flex flex-col space-y-1 mb-4"
       >
-        <div className="w-full flex flex-col">
-          <h2 className="tracking-tight group-hover:underline text-md">
-            {post.metadata.title}
+        <h2 className="tracking-tight group-hover:underline text-md">
+          {post.metadata.title}
+          <Link href={`/blogs?cat=${post?.metadata?.category}`} legacyBehavior>
             <Badge className="ml-3 bg-gray-800 bg-opacity-80 text-white">
               {post.metadata.category}
             </Badge>
-          </h2>
-          <p className="h-6 text-xs mt-1 text-muted-foreground">
-            {formatDate(post.metadata?.publishedAt)}
-          </p>
-          <p className="text-xs text_ecl-2 text-gray-400 text_ecl-2">
-            {post.metadata.summary}
-          </p>
-        </div>
+          </Link>
+        </h2>
+        <p className="h-6 text-xs mt-1 text-muted-foreground">
+          {formatDate(post.metadata?.publishedAt)}
+        </p>
+        <p className="text-xs text_ecl-2 text-gray-400 text_ecl-2">
+          {post.metadata.summary}
+        </p>
       </Link>
     </BlurFade>
   );

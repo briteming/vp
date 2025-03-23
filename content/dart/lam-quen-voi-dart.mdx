@@ -1,0 +1,250 @@
+---
+title: "Làm quen với ngôn ngữ lập trình Dart"
+publishedAt: "2025-03-23"
+summary: "Hướng dẫn làm quen với ngôn ngữ lập trình Dart"
+---
+
+### 1. Dart là gì?
+
+Dart là một ngôn ngữ lập trình được phát triển bởi Google, được sử dụng để phát triển các ứng dụng web, ứng dụng di động và ứng dụng máy tính. Dart được sử dụng để phát triển các ứng dụng web, ứng dụng di động và ứng dụng máy tính.
+
+### 2. Cài đặt Dart
+1. Cài dart với windows
+Để cài đặt Dart, bạn cần truy cập trang web chính thức của Dart tại [dart.dev](https://dart.dev/). Sau đó, bạn chọn phiên bản phù hợp với hệ điều hành của mình và bắt đầu cài đặt.
+2. Cài dart với linux
+Để cài đặt Dart trên Linux, bạn cần mở terminal và chạy các lệnh sau:
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https
+sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+sudo apt-get update
+sudo apt-get install dart
+```
+3. Cài dart với macos
+Để cài đặt Dart trên MacOS, bạn cần mở terminal và chạy các lệnh sau:
+```bash
+brew tap dart-lang/dart
+brew install dart
+```
+
+### 3. Khái niệm cơ bản trong Dart
+1. Kiểu dữ liệu
+Dart hỗ trợ các kiểu dữ liệu cơ bản như: int, double, String, bool, List, Map.
+Ví dụ:
+```dart
+void main() {
+  int number = 10; // kiểu số nguyên
+  double pi = 3.14; // kiểu số thực
+  String name = 'Dart'; // kiểu chuỗi
+  bool isTrue = true; // kiểu boolean
+  List<int> numbers = [1, 2, 3, 4, 5]; // kiểu mảng
+  Map<String, int> ages = {'Alice': 25, 'Bob': 30}; // kiểu map (object)
+}
+```
+> Lưu ý: Dart là một ngôn ngữ kiểu tĩnh, nghĩa là bạn cần khai báo kiểu dữ liệu cho biến.
+> Dùng $bien để nối chuỗi trong Dart.
+> Dùng `final` hoặc `const` để khai báo biến không thay đổi giá trị.
+```dart
+final String fullName = "Định"; // final: có thể khởi tạo lúc runtime
+const int year = 2024; // const: phải có giá trị cố định lúc biên dịch
+```
+2. Danh sách (List) và (Map)
+- List (Mảng): là một tập hợp các phần tử có thứ tự, có thể chứa các phần tử cùng hoặc khác kiểu dữ liệu.
+```dart
+void main() {
+  // khai báo mảng
+  List<int> numbers = [1, 2, 3, 4, 5];
+  print(numbers); // [1, 2, 3, 4, 5]
+  // lấy phần tử đầu tiên
+  print(numbers[0]); // 1
+  // lấy độ dài mảng
+  print(numbers.length); // 5
+  // thêm phần tử vào cuối mảng
+  numbers.add(6);
+  print(numbers); // [1, 2, 3, 4, 5, 6]
+  // xóa phần tử đầu tiên
+  numbers.removeAt(0);
+  print(numbers); // [2, 3, 4, 5, 6]
+  // xóa phần tử từ vị trí 0 đến 2
+  numbers.removeRange(0, 2);
+  print(numbers); // [5, 6]
+  // xóa phần tử có giá trị 5
+  numbers.remove(5);
+  print(numbers); // [6]
+  // xóa tất cả phần tử
+  numbers.clear();
+  print(numbers); // []
+}
+```
+- Map (Đối tượng): là một tập hợp các cặp key-value, trong đó key là duy nhất và không thể thay đổi.
+```dart
+void main() {
+    Map<String, int> ages = {'Alice': 25, 'Bob': 30};
+    print(ages['Alice']); // 25
+    print(ages.length); // 2
+    // thêm cặp key-value
+    ages['Charlie'] = 35;
+    print(ages); // {Alice: 25, Bob: 30, Charlie: 35}
+    // xóa cặp key-value
+    ages.remove('Alice');
+    print(ages); // {Bob: 30, Charlie: 35}
+    // xóa tất cả cặp key-value
+    ages.clear();
+    print(ages); // {}
+}
+```
+3. Hàm (Function)
+Hàm là một khối mã thực thi một công việc cụ thể, có thể nhận tham số và trả về giá trị.
+```dart
+void main() {
+  // hàm không trả về giá trị
+  void sayHello() {
+    print('Hello');
+  }
+  sayHello(); // Hello
+
+  // hàm trả về giá trị
+  int sum(int a, int b) {
+    return a + b;
+  }
+  print(sum(5, 3)); // 8
+
+  // Hàm rút gọn
+  int multiply(int a, int b) => a * b;
+  print(multiply(5, 3)); // 15
+}
+```
+4. Lập trình hướng đối tượng (OOP)
+Dart hỗ trợ lập trình hướng đối tượng với các khái niệm cơ bản như class, object, constructor, inheritance, getter, setter, method, ...
+```dart
+class Person {
+  String name;
+  int age;
+
+  Person(this.name, this.age); // Constructor
+
+  void sayHello() {
+    print("Xin chào, tôi là $name, $age tuổi.");
+  }
+}
+
+void main() {
+  Person p = Person("Định", 25);
+  p.sayHello(); // Xin chào, tôi là Định, 25 tuổi.
+}
+```
+getters và setters
+```dart
+class Car {
+  String _brand = "Toyota"; // Private (có dấu _)
+
+  String get brand => _brand;
+  set brand(String newBrand) => _brand = newBrand;
+}
+
+void main() {
+  Car myCar = Car();
+  print(myCar.brand); // Toyota
+  myCar.brand = "Honda";
+  print(myCar.brand); // Honda
+}
+
+```
+5. Exception (Xử lý ngoại lệ)
+Dart hỗ trợ xử lý ngoại lệ với các từ khóa try, catch, finally.
+```dart
+void main() {
+  try {
+    int result = 5 ~/ 0;
+    print(result);
+  } catch (e) {
+    print('Lỗi: $e');
+  } finally {
+    print('Kết thúc');
+  }
+}
+```
+6. Điều kiện và vòng lặp
+- If-else
+```dart
+void main() {
+  int number = 10;
+  if (number > 0) {
+    print('Số dương');
+  } else if (number < 0) {
+    print('Số âm');
+  } else {
+    print('Số không');
+  }
+}
+```
+- Switch-case
+```dart
+void main() {
+  String color = 'red';
+  switch (color) {
+    case 'red':
+      print('Đỏ');
+      break;
+    case 'blue':
+      print('Xanh');
+      break;
+    default:
+      print('Không xác định');
+  }
+}
+```
+- For loop
+```dart
+void main() {
+  for (int i = 0; i < 5; i++) {
+    print(i);
+  }
+  List<String> names = ["Định", "Hà", "An"];
+  for (String name in names) {
+   print(name);
+  }
+}
+```
+- While loop
+```dart
+void main() {
+  int i = 0;
+  while (i < 5) {
+    print(i);
+    i++;
+  }
+}
+```
+- Do-while loop
+```dart
+void main() {
+  int i = 0;
+  do {
+    print(i);
+    i++;
+  } while (i < 5);
+}
+```
+7. Xử lý bất đồng bộ (Async/Await)
+Dart hỗ trợ lập trình bất đồng bộ giúp xử lý công việc như tải dữ liệu từ server mà không làm chậm UI.
+```dart
+Future<String> fetchData() async {
+  await Future.delayed(Duration(seconds: 2));
+  return "Dữ liệu tải xong!";
+}
+
+void main() async {
+  print("Bắt đầu tải...");
+  String data = await fetchData();
+  print(data); // Dữ liệu tải xong!
+}
+```
+> Lưu ý: Hãy sử dụng từ khóa `async` và `await` để xử lý bất đồng bộ trong Dart.
+> Sử dụng `Future` để trả về giá trị trong hàm bất đồng bộ.
+> Sử dụng `await` để chờ kết quả trả về từ hàm bất đồng bộ.
+
+### 4. Kết luận
+Trên đây là hướng dẫn cơ bản để làm quen với ngôn ngữ lập trình Dart. Hy vọng bài viết này sẽ giúp bạn hiểu rõ hơn về Dart và có thể bắt đầu phát triển các ứng dụng với Dart.
+

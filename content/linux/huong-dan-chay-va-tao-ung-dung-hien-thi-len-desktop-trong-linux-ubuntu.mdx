@@ -1,0 +1,73 @@
+---
+title: "Hướng Dẫn Chạy và Tạo Ứng Dụng Hiển Thị Lên Desktop Trong Linux Ubuntu"
+publishedAt: "2025-03-22"
+summary: "Hướng dẫn chạy ứng dụng từ file AppImage và tạo shortcut hiển thị ứng dụng trên menu ứng dụng của Ubuntu."
+---
+
+## 1. Chạy Ứng Dụng Từ File `.AppImage`
+### Bước 1: Cấp quyền thực thi cho file AppImage
+```bash
+chmod +x /path/to/application.AppImage
+```
+### Bước 2: Chạy ứng dụng
+```bash
+/path/to/application.AppImage
+```
+
+## 2. Tạo Shortcut Hiển Thị Ứng Dụng Trên Menu
+
+### Bước 1: Tạo file `.desktop`
+Tạo file `.desktop` trong `~/.local/share/applications/`
+```bash
+nano ~/.local/share/applications/myapp.desktop
+```
+
+### Bước 2: Thêm nội dung vào file `.desktop`
+```ini
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MyApp
+Exec=/home/username/path/to/application.AppImage
+Icon=/home/username/path/to/icon.png
+Categories=Utility;
+Terminal=false
+StartupWMClass=MyApp
+```
+**Chú ý:**
+- Thay `Exec=` thành đường dẫn đầy đủ đến file AppImage hoặc binary.
+- `Icon=` là đường dẫn đến file icon (PNG, SVG).
+
+### Bước 3: Cấp quyền thực thi cho file `.desktop`
+```bash
+chmod +x ~/.local/share/applications/myapp.desktop
+```
+
+### Bước 4: Cập nhật menu ứng dụng
+```bash
+update-desktop-database ~/.local/share/applications/
+gtk-update-icon-cache
+```
+
+## 3. Nếu Ứng Dụng Không Xuất Hiện
+- Kiểm tra đường dẫn file `.desktop` có đúng không.
+- Kiểm tra lại quyền thực thi của file `.desktop`:
+  ```bash
+  ls -l ~/.local/share/applications/myapp.desktop
+  ```
+- Thử restart GNOME Shell:
+  ```bash
+  killall -3 gnome-shell
+  ```
+- Hoặc đăng xuất và đăng nhập lại.
+
+## 4. Di Chuyển `.desktop` vào Thư Mục Hệ Thống (Tùy chọn)
+Nếu muốn ứng dụng xuất hiện cho tất cả user, di chuyển file `.desktop` vào thư mục hệ thống:
+```bash
+sudo mv ~/.local/share/applications/myapp.desktop /usr/share/applications/
+sudo chmod +x /usr/share/applications/myapp.desktop
+sudo update-desktop-database
+```
+
+Sau khi thực hiện các bước trên, ứng dụng của bạn sẽ hiển thị trong menu ứng dụng của Ubuntu! 🚀
+
