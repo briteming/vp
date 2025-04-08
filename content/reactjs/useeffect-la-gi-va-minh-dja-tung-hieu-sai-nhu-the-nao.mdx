@@ -1,0 +1,142 @@
+---
+title: "🧠 useEffect là gì và mình đã từng hiểu sai như thế nào?"
+publishedAt: "2025-04-08"
+summary: "Mình đã loại bỏ 7 thói quen xấu trong quy trình coding, giúp code sạch hơn, hiệu quả hơn—và hoàn toàn không hối tiếc!"
+---
+
+> Một lần mình tưởng `useEffect` là “thần thánh", hóa ra mình đang dùng sai từ đầu tới cuối...
+
+---
+
+## 1. `useEffect` là gì?
+
+Trong React, `useEffect` là một **hook** dùng để xử lý các **tác động phụ (side effects)** – tức là những thứ không liên quan trực tiếp đến việc hiển thị giao diện (render).  
+
+Ví dụ:
+
+- Gọi API để lấy dữ liệu
+- Lắng nghe sự kiện bàn phím, chuột, scroll...
+- Thiết lập hoặc dọn dẹp `setInterval`, `setTimeout`
+- Cập nhật `document.title`, lưu vào localStorage...
+
+Nói cách khác, nếu thứ bạn đang làm có thể gây **ảnh hưởng bên ngoài component**, thì khả năng cao bạn cần `useEffect`.
+
+Cú pháp cơ bản:
+
+```jsx
+useEffect(() => {
+  // code ở đây sẽ chạy sau mỗi lần render (nếu không có dependency array)
+});
+```
+
+Hoặc:
+
+```jsx
+useEffect(() => {
+  console.log('Component mounted');
+}, []);
+```
+
+Cái `[]` ở cuối gọi là **dependency array** – danh sách các giá trị khi thay đổi thì `useEffect` sẽ chạy lại.
+
+---
+
+## 2. Mình đã từng hiểu sai như thế nào?
+
+### ❌ Sai lầm 1: Cứ mỗi lần render là `useEffect` chạy?
+
+Ban đầu mình nghĩ là `useEffect` chạy lại sau **mỗi lần render**, nên mình để `console.log()` trong đó và… bất ngờ vì nó **không chạy lại**.
+
+Hóa ra, khi để `[]` (tức là **không có dependency nào**), thì `useEffect` chỉ chạy **một lần duy nhất** – tương đương với **componentDidMount** trong class component.
+
+```jsx
+useEffect(() => {
+  console.log('Chạy một lần duy nhất khi component mount');
+}, []);
+```
+
+Còn nếu bạn muốn nó chạy lại khi một biến nào đó thay đổi, bạn **phải đưa biến đó vào dependency array**.
+
+---
+
+### ❌ Sai lầm 2: Quên thêm dependencies
+
+Ví dụ này từng khiến mình đau đầu vài tiếng:
+
+```jsx
+useEffect(() => {
+  fetchData(keyword);
+}, []);
+```
+
+Mình nghĩ `useEffect` sẽ tự biết là khi `keyword` thay đổi thì phải chạy lại. Nhưng không. Nó chạy **một lần duy nhất** vì `[]` nghĩa là: “Ê React, đừng quan tâm gì hết, chỉ chạy lần đầu thôi nha.”
+
+✅ Cách đúng:
+
+```jsx
+useEffect(() => {
+  fetchData(keyword);
+}, [keyword]);
+```
+
+Mỗi khi `keyword` thay đổi, `useEffect` sẽ chạy lại.
+
+---
+
+### ❌ Sai lầm 3: Không cleanup dẫn đến rò rỉ bộ nhớ (memory leak)
+
+Mình từng tạo một `setInterval` trong `useEffect` như vầy:
+
+```jsx
+useEffect(() => {
+  const interval = setInterval(() => {
+    console.log('Tick');
+  }, 1000);
+}, []);
+```
+
+Kết quả? Khi chuyển sang trang khác (component bị unmount), cái `interval` kia **vẫn chạy**. Gây rò rỉ bộ nhớ và bug khó chịu.
+
+✅ Cách đúng là phải **dọn dẹp (cleanup)**:
+
+```jsx
+useEffect(() => {
+  const interval = setInterval(() => {
+    console.log('Tick');
+  }, 1000);
+
+  return () => {
+    clearInterval(interval); // Dọn dẹp khi component unmount
+  };
+}, []);
+```
+
+`useEffect` cho phép bạn **return một hàm**, và React sẽ gọi hàm đó **trước khi component bị unmount** hoặc **trước khi chạy lại effect mới**.
+
+---
+
+## 3. Sau khi hiểu rõ hơn, mình rút ra bài học gì?
+
+- Đừng coi `[]` là mặc định – hãy dùng nó cẩn thận.
+- Bất kỳ biến nào bạn **dùng trong `useEffect`** mà có thể thay đổi, thì bạn nên **đưa nó vào dependency array**.
+- Nếu tạo ra thứ gì cần “dọn dẹp" (event listener, interval...), thì phải return một hàm để cleanup.
+- Cài plugin ESLint dành cho React để cảnh báo khi thiếu dependency.
+
+---
+
+## 4. Tổng kết
+
+`useEffect` không khó, nhưng cũng chẳng dễ.  
+Mình từng nghĩ mình hiểu nó, nhưng rồi lại dùng sai cách.  
+
+Nhưng khi đã **hiểu đúng cách hoạt động**, `useEffect` trở thành một **vũ khí cực mạnh** giúp component phản ứng đúng với dữ liệu, gọi API hợp lý và kiểm soát side effects gọn gàng hơn.
+
+---
+
+## 📌 Bạn thì sao?
+
+Bạn đã từng gặp lỗi nào “hài hước" khi dùng `useEffect` chưa? Hãy chia sẻ để cùng cười một cái và học hỏi thêm nhé 😄
+
+---
+
+Nếu bạn thích, mình có thể tiếp tục giúp bạn viết bài tiếp theo cho ngày mai. Bạn muốn viết chủ đề gì tiếp theo? Hay mình gợi ý cho?

@@ -1,0 +1,325 @@
+---
+title: "Custom Hook trong ReactJS – Viết một lần, dùng mọi nơi"
+publishedAt: "2025-04-06"
+summary: "Custom Hook trong ReactJS giúp bạn tái sử dụng logic mà không cần viết lại code. Hãy cùng tìm hiểu cách tạo và sử dụng Custom Hook trong bài viết này!"
+---
+
+
+> Có những logic lặp đi lặp lại khắp nơi trong dự án React của bạn? Chào mừng bạn đến với thế giới của **Custom Hook**.
+
+---
+
+## 1. Custom Hook là gì?
+
+Custom Hook đơn giản là một **hàm JavaScript** bắt đầu bằng từ `use` và bên trong có thể sử dụng các hook như `useState`, `useEffect`, v.v.
+
+Bạn dùng `useState` + `useEffect` để fetch API ở 3 component khác nhau? Tại sao không gộp lại thành một custom hook cho gọn?
+
+### Ví dụ đơn giản:
+
+```tsx
+// useWindowWidth.ts
+import { useState, useEffect } from 'react';
+
+export function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return width;
+}
+```
+
+### Cách dùng:
+
+```tsx
+const width = useWindowWidth();
+return <div>Current width: {width}px</div>;
+```
+
+---
+
+## 2. Tại sao nên dùng Custom Hook?
+
+- 🧠 **Tái sử dụng logic** mà không phải lặp code.
+- 🧼 **Tách biệt concern** – chia nhỏ logic cho gọn gàng, dễ test.
+- 📦 **Chia sẻ giữa các component** mà không cần HOC hoặc render props rườm rà.
+
+---
+
+## 3. Một số Custom Hook phổ biến và hữu ích
+
+### 🔁 `useFetch`
+
+Tự viết hook để gọi API, trả về `data`, `loading`, `error`.
+
+```tsx
+import { useState, useEffect } from 'react';
+
+export function useFetch<T = any>(url: string) {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    setLoading(true);
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => isMounted && setData(data))
+      .catch((err) => isMounted && setError(err))
+      .finally(() => isMounted && setLoading(false));
+
+    return () => {
+      isMounted = false;
+    };
+  }, [url]);
+
+  return { data, loading, error };
+}
+```
+
+Cách dùng:
+
+```tsx
+const { data, loading, error } = useFetch('https://api.example.com/posts');
+```
+
+---
+
+### ⌨️ `useDebounce`
+
+Hook dùng để debounce input – tránh gọi API liên tục khi gõ.
+
+```tsx
+import { useEffect, useState } from 'react';
+
+export function useDebounce<T>(value: T, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+```
+
+Cách dùng:
+
+```tsx
+const [keyword, setKeyword] = useState('');
+const debouncedKeyword = useDebounce(keyword, 300);
+
+useEffect(() => {
+  fetch(`/api/search?q=${debouncedKeyword}`);
+}, [debouncedKeyword]);
+```
+
+---
+
+### 💻 `useLocalStorage`
+
+Hook để get/set localStorage một cách đơn giản.
+
+```tsx
+import { useState } from 'react';
+
+export function useLocalStorage<T>(key: string, initialValue: T) {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+
+  const setValue = (value: T) => {
+    setStoredValue(value);
+    window.localStorage.setItem(key, JSON.stringify(value));
+  };
+
+  return [storedValue, setValue] as const;
+}
+```
+
+Cách dùng:
+
+```tsx
+const [theme, setTheme] = useLocalStorage('theme', 'light');
+```
+
+### 📱 `useMediaQuery` – responsive bằng hook, khỏi cần window.matchMedia thủ công
+
+```tsx
+import { useState, useEffect } from 'react';
+
+export function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const listener = () => setMatches(media.matches);
+
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, [query]);
+
+  return matches;
+}
+```
+
+**Cách dùng:**
+
+```tsx
+const isMobile = useMediaQuery('(max-width: 768px)');
+return <>{isMobile ? 'Mobile View' : 'Desktop View'}</>;
+```
+
+---
+
+### 🌐 `useOnlineStatus` – kiểm tra user đang online hay offline
+
+```tsx
+import { useEffect, useState } from 'react';
+
+export function useOnlineStatus() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const updateOnlineStatus = () => setIsOnline(navigator.onLine);
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
+    };
+  }, []);
+
+  return isOnline;
+}
+```
+
+**Cách dùng:**
+
+```tsx
+const isOnline = useOnlineStatus();
+return <div>{isOnline ? 'Bạn đang online' : 'Bạn đang offline 😴'}</div>;
+```
+
+---
+
+### ⌛ `useTimeout` – delay một hành động sau vài giây
+
+```tsx
+import { useEffect, useRef } from 'react';
+
+export function useTimeout(callback: () => void, delay: number) {
+  const savedCallback = useRef(callback);
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    if (delay === null) return;
+
+    const id = setTimeout(() => savedCallback.current(), delay);
+    return () => clearTimeout(id);
+  }, [delay]);
+}
+```
+
+**Cách dùng:**
+
+```tsx
+useTimeout(() => {
+  console.log('This runs after 2s');
+}, 2000);
+```
+
+---
+
+### 📏 `usePrevious` – lưu giá trị trước đó của biến
+
+```tsx
+import { useEffect, useRef } from 'react';
+
+export function usePrevious<T>(value: T) {
+  const ref = useRef<T>();
+
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
+}
+```
+
+**Cách dùng:**
+
+```tsx
+const [count, setCount] = useState(0);
+const prevCount = usePrevious(count);
+
+return <div>Hiện tại: {count}, Trước đó: {prevCount}</div>;
+```
+
+---
+
+### 🎯 `useOnClickOutside` – đóng modal, menu khi click ra ngoài
+
+```tsx
+import { useEffect } from 'react';
+
+export function useOnClickOutside(ref: React.RefObject<HTMLElement>, handler: (e: MouseEvent) => void) {
+  useEffect(() => {
+    const listener = (event: MouseEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) return;
+      handler(event);
+    };
+
+    document.addEventListener('mousedown', listener);
+    return () => document.removeEventListener('mousedown', listener);
+  }, [ref, handler]);
+}
+```
+
+**Cách dùng:**
+
+```tsx
+const ref = useRef(null);
+useOnClickOutside(ref, () => setOpen(false));
+
+return <div ref={ref}>This is a dropdown</div>;
+```
+
+---
+
+## 4. Những lưu ý khi viết Custom Hook
+
+✅ Tên hook **phải bắt đầu bằng `use`** (React mới nhận diện được).  
+✅ Luôn tuân thủ **Rules of Hooks**: gọi hook ở top-level, không trong if/for.  
+✅ Có thể gọi các hook khác bên trong custom hook (hook lồng hook).
+
+---
+
+## 5. Tổng kết
+
+Viết `Custom Hook` là một kỹ năng cực kỳ cần thiết khi làm việc với React:
+
+- Dự án càng lớn, **logic lặp lại càng nhiều**
+- Custom hook giúp code sạch hơn, dễ test, dễ đọc
+- Là bước tiến từ “xài được React” đến “tư duy React”
+
+---

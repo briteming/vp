@@ -1,0 +1,209 @@
+---
+title: "Tối ưu hóa hiệu suất React với React.memo và useCallback"
+publishedAt: "2025-04-05"
+summary: "Cách tối ưu hiệu suất trong React bằng React.memo và useCallback. Giảm thiểu re-render không cần thiết, tăng tốc độ ứng dụng."
+---
+
+> "Tại sao component con của tôi cứ re-render hoài dù props không đổi?"  
+> Có thể bạn đang thiếu một chút tối ưu với `React.memo` và `useCallback`.
+
+---
+
+## 1. Câu chuyện bắt đầu từ đâu?
+
+Khi một component cha render lại – bất kể vì state nào thay đổi – thì **tất cả component con** cũng sẽ re-render, *trừ khi bạn kiểm soát điều đó*.
+
+Điều này **có thể gây giảm hiệu suất**, nhất là nếu component con nặng (VD: danh sách, biểu đồ, dropdown...).
+
+---
+
+## 2. Giải pháp: `React.memo` và `useCallback`
+
+### ✅ `React.memo`
+
+`React.memo` là một **HOC (Higher Order Component)** giúp **memo hóa component** – tức là **giữ lại kết quả render trước đó**, và chỉ render lại nếu props thay đổi.
+
+```tsx
+const MyComponent = React.memo(function MyComponent({ name }: { name: string }) {
+  console.log('Re-render MyComponent');
+  return <div>Hello, {name}</div>;
+});
+```
+
+---
+
+### ✅ `useCallback`
+
+`useCallback` giúp **memo hóa hàm callback** – tức là giữ nguyên reference của một hàm qua các lần render, trừ khi dependency thay đổi.
+
+```tsx
+const handleClick = useCallback(() => {
+  console.log('Clicked!');
+}, []);
+```
+
+---
+
+## 3. Ví dụ minh họa: Không tối ưu vs Có tối ưu
+
+### ❌ Không tối ưu: Component con re-render mỗi lần cha render
+
+```tsx
+const Child = ({ onClick }: { onClick: () => void }) => {
+  console.log('Child render');
+  return <button onClick={onClick}>Click me</button>;
+};
+
+const Parent = () => {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => console.log('Clicked');
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <Child onClick={handleClick} />
+    </>
+  );
+};
+```
+
+➡ Mỗi lần bấm "Increment", `Parent` render lại → `handleClick` được tạo lại → `Child` cũng bị render lại, **dù không cần thiết**.
+
+---
+
+### ✅ Có tối ưu: Giữ nguyên callback + memo hóa component
+
+```tsx
+const Child = React.memo(({ onClick }: { onClick: () => void }) => {
+  console.log('Child render');
+  return <button onClick={onClick}>Click me</button>;
+});
+
+const Parent = () => {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <Child onClick={handleClick} />
+    </>
+  );
+};
+```
+
+➡ Lúc này, `Child` chỉ render đúng một lần – khi callback không đổi và props không thay đổi.
+
+---
+
+## 4. Những hiểu lầm thường gặp
+
+### ❗ `React.memo` không "tự động tối ưu" cho bạn  
+Nó **so sánh `props` bằng `shallow compare`**, nên nếu bạn truyền object mới mỗi lần, nó vẫn render.
+
+```tsx
+<Child data={{ name: 'Dinh' }} /> // mỗi lần render là một object mới → render lại
+```
+
+👉 Giải pháp: Memo hóa object bằng `useMemo`, hoặc truyền dữ liệu đơn giản.
+
+---
+
+### ❗ `useCallback` không giảm số lần chạy hàm  
+Nó chỉ **giữ lại hàm cũ nếu dependency không đổi** – không phải "chặn" callback.
+
+---
+
+## 5. Khi nào nên dùng?
+
+- **Khi component con nặng**: Nếu bạn thấy component con render lại nhiều lần mà không cần thiết, hãy thử `React.memo`.
+- **Khi callback được truyền xuống nhiều lần**: Nếu bạn truyền một hàm callback cho nhiều component con, hãy dùng `useCallback` để tránh tạo lại hàm mỗi lần render.
+- **Khi bạn thấy hiệu suất giảm**: Nếu ứng dụng của bạn chậm lại khi có nhiều component, hãy xem xét tối ưu hóa với cả hai.
+- **Không lạm dụng**: Chỉ dùng khi cần thiết. Nếu component nhẹ, việc tối ưu hóa có thể không cần thiết và chỉ làm code phức tạp hơn.
+- **Đừng quên kiểm tra hiệu suất**: Sử dụng công cụ như React DevTools để theo dõi số lần render và hiệu suất tổng thể.
+- **Kết hợp với `useMemo`**: Nếu bạn có tính toán nặng trong component, hãy dùng `useMemo` để tránh tính toán lại không cần thiết.
+- **Tránh dùng cho mọi component**: Chỉ áp dụng cho những component có khả năng re-render nhiều lần mà không cần thiết.
+- **Kiểm tra hiệu suất trước và sau**: Đo lường hiệu suất trước và sau khi áp dụng để xem có cải thiện không.
+
+---
+
+## 6. Vậy tại sao lại không nên lạm dụng trong khi nó có thể tối ưu hóa hiệu suất?
+
+>Nghe thì có vẻ: *“Memo thì tốt, sao lại không dùng luôn cho chắc?”* — nhưng thực tế **React.memo và useCallback không miễn phí** đâu, chúng cũng **có "cost" (chi phí)** riêng. Mình giải thích kỹ cho bạn hiểu vì sao **không nên lạm dụng**, dù nó là công cụ tối ưu mạnh mẽ:
+
+---
+
+### ❗a. `React.memo` cũng phải... so sánh `props`
+
+Mỗi lần parent re-render, `React.memo` sẽ **chạy lại một hàm `shallow comparison`** để kiểm tra xem props mới có khác props cũ không.
+
+➡ Nếu component con đơn giản, chỉ có vài dòng JSX, thì việc "so sánh props" đôi khi **còn tốn công hơn việc re-render luôn**!
+
+#### 💥 Ví dụ:
+```tsx
+const TinyComponent = React.memo(({ label }) => <span>{label}</span>);
+```
+Nếu `label` luôn là string mới, mỗi lần parent render lại thì:
+- React phải chạy `shallow compare`
+- Kết quả: vẫn phải render lại
+
+👉 **Kết luận:** Memo hóa cái nhỏ quá → không lợi gì, còn tốn thêm bước kiểm tra props.
+
+---
+
+#### ❗b. `useCallback` giữ lại reference, nhưng cũng tiêu tốn bộ nhớ
+
+`useCallback` về bản chất là `useMemo` cho function. Nó:
+- **Giữ function trong bộ nhớ**
+- **Theo dõi dependency** (nếu dependency thay đổi, tạo lại function mới)
+
+➡ Nếu bạn có quá nhiều `useCallback`, React phải theo dõi nhiều dependency → tăng complexity, và đôi khi **code trở nên khó đọc** hơn vì đầy `useCallback`, `useMemo`.
+
+---
+
+#### ❗c. Khi không có vấn đề, tối ưu sớm = phí công
+
+Một nguyên tắc "vàng" trong lập trình:  
+> **“Don’t optimize prematurely.”** – Đừng tối ưu quá sớm khi chưa gặp vấn đề.
+
+Nếu component:
+- Nhỏ, đơn giản
+- Không bị render nhiều
+- Không bị lag, không chậm
+
+👉 Thì **việc thêm `memo`, `useCallback` không cải thiện gì cả**, đôi khi còn khiến code khó maintain hơn.
+
+---
+
+### ✅ Vậy khi nào dùng là **hợp lý**?
+
+- **Component nặng**: Nếu component có nhiều logic, nhiều props, hoặc render nhiều lần → dùng `React.memo` và `useCallback`.
+- **Component con**: Nếu bạn có nhiều component con trong một parent, và chỉ một trong số đó cần re-render → dùng `React.memo` cho component đó.
+- **Callback phức tạp**: Nếu bạn truyền một hàm callback phức tạp cho nhiều component con → dùng `useCallback` để tránh tạo lại hàm mỗi lần render.
+- **Khi thấy hiệu suất giảm**: Nếu bạn thấy ứng dụng chậm lại khi có nhiều component, hãy xem xét tối ưu hóa với cả hai.
+
+---
+
+### ✨ Tổng kết: Đúng lúc, đúng chỗ mới là "nghệ thuật React"
+
+Tối ưu là **con dao hai lưỡi**:
+- Dùng đúng lúc → mượt mà, hiệu suất cao
+- Lạm dụng → phức tạp, không cần thiết
+
+Vậy nên, chỉ cần nhớ:  
+> **React.memo và useCallback là công cụ tối ưu – không phải mặc định phải có.**
+
+---
+
+## 7. Tổng kết
+
+- **`React.memo`**: tránh re-render component nếu props không thay đổi
+- **`useCallback`**: tránh tạo lại function không cần thiết
+- Kết hợp cả 2 giúp **giảm render thừa**, tăng hiệu suất đáng kể
+- Đừng "lạm dụng" – chỉ dùng khi thấy hiệu suất giảm hoặc component quá nặng
+
+---

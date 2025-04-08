@@ -24,6 +24,9 @@ export default function Page() {
   useEffect(() => {
     setColor(theme === "dark" ? "#ffffff" : "#000000");
   }, [theme]);
+  const projects = useMemo(() => {
+    return DATA.projects.filter((project: any) => project.active);
+  }, [DATA.projects]);
   return (
     <main className="flex flex-col  min-h-[100dvh] space-y-10">
       <div className="w-full overflow-hidden h-screen fixed left-0 right-0">
@@ -167,7 +170,7 @@ export default function Page() {
             </div>
           </BlurFade>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-            {DATA.projects.map((project, id) => (
+            {projects?.map((project, id) => (
               <BlurFade
                 key={project.title}
                 delay={BLUR_FADE_DELAY * 12 + id * 0.05}
@@ -211,7 +214,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-      
     </main>
   );
 }

@@ -3,7 +3,7 @@ import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon, Code, PencilLine } from "lucide-react";
 
 export const DATA = {
-  updated_at: "Cập nhật lần cuối: 10/03/2025",
+  updated_at: "Cập nhật lần cuối: 08/04/2025",
   link_cv:
     "https://www.canva.com/design/DAGfhyA9Znw/96peSQWOoS_jsnbpVdyx8Q/view?utm_content=DAGfhyA9Znw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h134ba3c6d0",
   name: "Vũ Văn Định",
@@ -137,6 +137,103 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
   ],
   projects: [
     {
+      title: "Xây dựng website ecommerce Việt Farm sử dụng wordpress",
+      href: "https://vietfarm.vuvandinh.id.vn",
+      dates: "Tháng 5 2024 - Tháng 6 2024",
+      active: false,
+      description: `Xây dựng một website bán hàng trực tuyến cho cửa hàng Việt Farm, bao gồm các tính năng như quản lý sản phẩm, đơn hàng, khách hàng, và cung cấp thông tin về các dịch vụ. Website được phát triển với giao diện thân thiện và dễ sử dụng, giúp người dùng dễ dàng tìm kiếm thông tin và tương tác với nội dung.`,
+      technologies: ["Wordpress", "HTML", "CSS", "JavaScript", "MySQL"],
+      links: [
+        {
+          type: "Website",
+          href: "https://vietfarm.vuvandinh.id.vn",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "/uploads/vietfarm.png",
+      video: "https://www.youtube.com/embed/tB8htsuvY_Q?si=zJ0lWBKemqQd7sEa",
+    },
+    {
+      title:
+        "Xây dựng website tăng like, comment, share bài viết facebook, instagram, tiktok...",
+      href: "https://tanglikez.com",
+      dates: "Tháng 7 2024 - Tháng 1 2025",
+      active: true,
+      description: `Một nền tảng cung cấp dịch vụ tăng like, follow, comment cho các nền tảng mạng xã hội như Facebook, TikTok, Instagram, YouTube,... Hệ thống hỗ trợ người dùng mua dịch vụ tự động thông qua giao diện đơn giản, dễ sử dụng, tích hợp thanh toán online và quản lý đơn hàng.`,
+      technologies: [
+        "Bootstrap",
+        "Laravel",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "PHP",
+        "MySQL",
+      ],
+      links: [
+        {
+          type: "Website",
+          href: "https://tanglikez.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "/uploads/tanglikez.png",
+      video: "https://www.youtube.com/embed/KkTRP5FHvgA?si=naGuqDPd7E6oYR9g",
+    },
+    {
+      title: "Xây dựng website phòng khám Hoàn Hảo - Hoàn Hảo Clinic",
+      href: "https://hoanhaoclinic.com",
+      dates: "Tháng 8 2024 - Tháng 1 2025",
+      active: true,
+      description: `Xây dựng một website cho phòng khám Hoàn Hảo, bao gồm các tính năng như đặt lịch hẹn, quản lý thông tin bệnh nhân và bác sĩ, và cung cấp thông tin về các dịch vụ y tế. Website được phát triển với giao diện thân thiện và dễ sử dụng, giúp người dùng dễ dàng tìm kiếm thông tin và tương tác với nội dung.`,
+      technologies: [
+        "TailwindCSS",
+        "Laravel",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "PHP",
+        "MySQL",
+      ],
+      links: [
+        {
+          type: "Website",
+          href: "https://hoanhaoclinic.com",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "/uploads/hoanhao.png",
+      video: "https://www.youtube.com/embed/kZ7Iyvo1_QQ?si=ENotMSEaoxoqyl9Q",
+    },
+    {
+      title: "Theme Website FOSO giới thiệu công ty và bài viết",
+      href: "https://foso.vuvandinh.id.vn",
+      dates: "Tháng 7 2025 - Tháng 7 2025",
+      active: false,
+      description: `Xây dựng một theme website cho công ty FOSO, bao gồm các tính năng như giới thiệu công ty, bài viết và quản lý nội dung. Theme được phát triển với giao diện thân thiện và dễ sử dụng, giúp người dùng dễ dàng tìm kiếm thông tin và tương tác với nội dung.`,
+      technologies: [
+        "Next.js",
+        "TailwindCSS",
+        "Node.js",
+        "HTML",
+        "CSS",
+        "Typescript",
+      ],
+      links: [
+        {
+          type: "Website",
+          href: "https://foso.vuvandinh.id.vn",
+          icon: <Icons.globe className="size-3" />,
+        },
+        {
+          type: "Website",
+          href: "https://github.com/vuvandinh123/foso-theme-nextjs",
+          icon: <Icons.github className="size-3" />,
+        },
+      ],
+      image: "/uploads/foso.png",
+      video: "https://www.youtube.com/embed/MyNm3JcNDr4?si=tVBUXU_k4DhkBqe4",
+    },
+    {
       title: "Website CMS giới thiệu công ty",
       href: "https://aviatek.com.vn",
       dates: "Tháng 6 2024 - Tháng 8 2024",
@@ -179,9 +276,9 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
       ],
       links: [
         {
-          type: "Website",
+          type: "Github",
           href: "https://github.com/vuvandinh123/CLIENT_REACTJS_VVD_SHOP_V1",
-          icon: <Icons.globe className="size-3" />,
+          icon: <Icons.github className="size-3" />,
         },
       ],
       image:

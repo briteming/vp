@@ -45,7 +45,7 @@ export default async function page() {
       <TitleSection
         label="Ghi chú"
         title="Tôi thích học"
-        description="Tôi thích học những thứ mới và ghi chú lại những thứ mình đã học và đang học để phát triển bản thân."
+        description="Dưới đây sẽ là những câu hỏi mà tôi đã tự hỏi bản thân mình trong quá trình học tập và làm việc. Tôi sẽ cố gắng trả lời chúng một cách tốt nhất có thể."
       ></TitleSection>
       <BlurFade
         delay={BLUR_FADE_DELAY * 20}
