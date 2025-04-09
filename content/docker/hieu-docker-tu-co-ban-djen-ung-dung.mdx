@@ -1,0 +1,187 @@
+---
+title: "Hiểu Docker: Từ Cơ Bản đến Ứng Dụng"
+publishedAt: "2025-04-08"
+summary: "Docker là một nền tảng giúp bạn đóng gói ứng dụng và môi trường chạy vào một container — một dạng máy ảo nhẹ giúp ứng dụng chạy nhất quán trên mọi máy."
+---
+
+Dưới đây là một bài viết chi tiết chia sẻ về **Docker**, bao gồm:
+
+- Tổng quan về Docker  
+- Các lệnh Docker phổ biến  
+- Cách viết Dockerfile  
+- Cách viết `docker-compose.yml`  
+- Giải thích ý nghĩa từng phần
+
+---
+
+# 🐳 Hiểu Docker: Từ Cơ Bản đến Ứng Dụng
+
+## ✅ Docker là gì?
+
+Docker là một nền tảng giúp bạn **đóng gói ứng dụng và môi trường chạy** vào một container — một dạng "máy ảo nhẹ" giúp ứng dụng chạy nhất quán trên mọi máy.
+
+Ví dụ: Bạn viết một ứng dụng Laravel chạy tốt trên máy mình, nhưng khi đẩy lên server thì lỗi tùm lum. Docker giúp gói nó lại để "chạy ở đâu cũng giống nhau".
+
+---
+
+## 🧰 Một số lệnh Docker phổ biến
+
+### 🔍 Xem danh sách container đang chạy
+```bash
+docker ps
+```
+
+### 🔍 Xem tất cả container (bao gồm container đã dừng)
+```bash
+docker ps -a
+```
+
+### 🚀 Chạy một container
+```bash
+docker run -d -p 8080:80 nginx
+```
+- `-d`: chạy ngầm (detached)
+- `-p`: ánh xạ port (host:container)
+- `nginx`: tên image
+
+### ❌ Dừng một container
+```bash
+docker stop <container_id>
+```
+
+### 🗑️ Xóa container
+```bash
+docker rm <container_id>
+```
+
+### 🗑️ Xóa image
+```bash
+docker rmi <image_id>
+```
+
+### 🔄 Build image từ Dockerfile
+```bash
+docker build -t ten-image .
+```
+
+### 🐚 Vào bên trong container
+```bash
+docker exec -it <container_id> bash
+```
+
+---
+
+## 🧱 Dockerfile là gì?
+
+Dockerfile là file mô tả **cách tạo ra một image**. Giống như công thức nấu ăn để tạo ra container.
+
+### Ví dụ Dockerfile cho Laravel:
+
+```Dockerfile
+# Chỉ định image gốc (ở đây là PHP) fpm là fast process manager
+FROM php:8.2-fpm 
+
+# Cài dependency
+RUN apt-get update && apt-get install -y \
+    zip unzip git curl libzip-dev libpng-dev libonig-dev libxml2-dev \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl
+
+# Cài Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set thư mục làm việc
+WORKDIR /var/www
+
+# Copy toàn bộ code vào container
+COPY . .
+
+# Cài package Laravel
+RUN composer install
+
+# Cấp quyền cho Laravel
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
+# Chạy php-fpm 
+CMD ["php-fpm"]
+```
+
+**Giải thích:**
+- `FROM`: chỉ định image gốc (ở đây là PHP)
+- `RUN`: thực hiện các lệnh khi build
+- `COPY`: copy file từ host vào image
+- `WORKDIR`: thư mục làm việc trong container
+- `CMD`: lệnh mặc định khi container chạy
+
+---
+
+## 🧬 Docker Compose là gì?
+
+Docker Compose cho phép bạn quản lý **nhiều container cùng lúc** bằng cách định nghĩa tất cả trong 1 file `docker-compose.yml`.
+
+### Ví dụ `docker-compose.yml`
+
+```yaml
+version: '3.8' # Chỉ định phiên bản cú pháp của Docker Compose file
+
+services: # Định nghĩa các service (container) cần chạy
+  app: # Tên service
+    build: # Build từ Dockerfile trong thư mục hiện tại
+      context: . # Thư mục chứa Dockerfile
+    volumes: # Mount code từ host vào container
+      - .:/var/www # Thư mục chứa code
+    ports: # Expose port
+      - "9000:9000" # Ánh xạ port (host:container)
+    command: php-fpm # Lệnh mặc định khi container chạy
+    depends_on: # Thứ tự khởi chạy
+      - mysql # Phụ thuộc vào MySQL service
+
+  mysql: # Tên service
+    image: mysql:8.0 # Sử dụng MySQL 8.0 image
+    environment: # Cấu hình môi trường
+      MYSQL_ROOT_PASSWORD: root # Root password
+      MYSQL_DATABASE: myapp # Tên database
+    ports: # Expose port
+      - "3306:3306" # Ánh xạ port (host:container)
+    volumes: # Lưu data vào named volume
+      - mysql_data:/var/lib/mysql
+
+volumes: # Định nghĩa named volume để lưu trữ data MySQL để không bị mất khi container bị xóa
+  mysql_data: # Tên volume
+```
+
+**Giải thích:**
+- `services`: các container muốn chạy
+- `build`: chỉ định Dockerfile để build
+- `volumes`: ánh xạ thư mục giữa máy thật và container
+- `ports`: ánh xạ port
+- `depends_on`: thứ tự khởi chạy
+- `volumes`: tạo volume lưu trữ dữ liệu vĩnh viễn
+
+---
+
+## 💡 Một số mẹo
+
+- Dùng `.dockerignore` để loại trừ file không cần thiết (giống `.gitignore`)
+- Thường xuyên dùng `docker-compose down -v` để xóa container + volume nếu gặp lỗi vặt
+- Cẩn thận với `chmod 777`, nên dùng `775` và cấp đúng user (vd: `www-data`)
+- Khi chạy `docker-compose up`, nếu muốn tạo lại container mới dùng `docker-compose up -d --build`
+
+---
+
+## 🎯 Kết luận
+
+Docker là công cụ cực kỳ mạnh mẽ giúp bạn:
+- Tự động hóa môi trường phát triển
+- Triển khai ứng dụng dễ dàng, nhất quán
+- Làm việc theo mô hình microservices
+
+Bạn không cần nhớ hết mọi thứ ngay. Bắt đầu từ những Dockerfile và Compose đơn giản, dần dần bạn sẽ thấy nó "ngon" như cơm nhà làm.
+
+---
+
+## 📚 Tài liệu tham khảo
+
+- [Docker Documentation](https://docs.docker.com/)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+- [Dockerfile Documentation](https://docs.docker.com/engine/reference/builder/)

@@ -46,15 +46,15 @@ COPY . /var/www/html
 
 EXPOSE 9000
 ```
-### Các lệnh cơ bản
+## Các lệnh cơ bản
 
 ### để chạy ứng dụng
 ```bash
-sudo docker compose up --build -d
+docker compose up --build -d
 ```
 ### Để xem các container đang chạy
 ```bash
- sudo docker ps
+docker ps
 ```
 ### Dừng các container đang chạy 
 ```bash
@@ -65,6 +65,22 @@ docker stop <container_id>
 docker stop $(docker ps -aq)
 ```
 ### Xóa các container đã dừng
+```bash
+docker rm $(docker ps -aq)
+```
+### Xóa các image
+```bash
+docker rmi $(docker images -q)
+```
+### Xóa các volume
+```bash
+docker volume rm $(docker volume ls -q)
+```
+### Xóa các network
+```bash
+docker network rm $(docker network ls -q)
+```
+### Xóa các container đang chạy
 ```bash
 docker rm $(docker ps -aq)
 ```
