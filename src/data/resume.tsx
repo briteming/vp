@@ -3,7 +3,7 @@ import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon, Code, PencilLine } from "lucide-react";
 
 export const DATA = {
-  updated_at: "Cập nhật lần cuối: 08/04/2025",
+  updated_at: "Cập nhật lần cuối: 25/04/2025",
   link_cv:
     "https://www.canva.com/design/DAGfhyA9Znw/96peSQWOoS_jsnbpVdyx8Q/view?utm_content=DAGfhyA9Znw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h134ba3c6d0",
   name: "Vũ Văn Định",
@@ -313,7 +313,7 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
     },
     {
       title: "Website hiển thị và đặt lịch dán decals",
-      href: "https://dinhdev.click",
+      href: "https://decalbaclieu.com",
       dates: "Tháng 7 2024 - Hiện tại",
       active: true,
       description: `Phát triển một nền tảng web để hiển thị và đặt lịch dịch vụ dán decals cho khách hàng. Website cung cấp giao diện dễ sử dụng cho việc xem các mẫu decals, chọn dịch vụ phù hợp, và đặt lịch hẹn để dán decals.`,

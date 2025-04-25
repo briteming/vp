@@ -1,0 +1,101 @@
+---
+title: "Debounce và Throttle trong JavaScript là gì? Khi nào nên dùng?"
+publishedAt: "2025-04-25"
+summary: "Trong lập trình frontend, đặc biệt là khi xử lý các sự kiện người dùng** như `scroll`, `resize`, `input`, hoặc `click`, việc gọi hàm liên tục có thể khiến ứng dụng lag, tốn tài nguyên, và giảm trải nghiệm người dùng. Đây là lúc debounce và throttle phát huy sức mạnh!"
+---
+
+## 🌀 Debounce và Throttle trong JavaScript là gì? Khi nào nên dùng?
+
+Trong lập trình frontend, đặc biệt là khi xử lý các **sự kiện người dùng** như `scroll`, `resize`, `input`, hoặc `click`, việc gọi hàm liên tục có thể khiến ứng dụng lag, tốn tài nguyên, và giảm trải nghiệm người dùng. Đây là lúc **debounce** và **throttle** phát huy sức mạnh!
+
+---
+
+### 🚀 Vấn đề gặp phải
+
+Giả sử bạn đang viết một ô tìm kiếm tự động gợi ý:
+
+```js
+<input onInput="searchKeyword()" />
+```
+
+Nếu người dùng gõ nhanh “abc”, hàm `searchKeyword()` sẽ bị gọi **3 lần** liên tục chỉ trong chưa đầy 1 giây. Nếu mỗi lần gọi lại gọi API? RIP performance! 💀
+
+---
+
+## 1️⃣ Debounce là gì?
+
+**Debounce** là kỹ thuật **trì hoãn việc thực thi hàm** cho đến khi người dùng **dừng thao tác trong một khoảng thời gian nhất định**.
+
+> ⏰ Hiểu nôm na: "Đợi người ta gõ xong đã rồi mới tìm kiếm!"
+
+### 🧠 Cách hoạt động:
+- Bạn gõ: `a` → đợi 300ms → bạn gõ tiếp `b` → reset timer → gõ `c` → reset tiếp.
+- Khi bạn dừng gõ trong 300ms → *lúc này mới gọi hàm tìm kiếm!*
+
+### 🧪 Ví dụ Debounce:
+
+```js
+function debounce(fn, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+const handleInput = debounce(function (e) {
+  console.log("Searching for:", e.target.value);
+}, 500);
+
+document.querySelector("input").addEventListener("input", handleInput);
+```
+
+---
+
+## 2️⃣ Throttle là gì?
+
+**Throttle** là kỹ thuật giới hạn **tần suất gọi hàm**: Trong một khoảng thời gian (ví dụ 1 giây), hàm **chỉ được gọi 1 lần**, dù sự kiện có diễn ra liên tục.
+
+> 🧱 Tưởng tượng: "Bạn là bảo vệ. Một giây chỉ cho **1 người** vào, dù cả trăm người chen nhau!"
+
+### 🧪 Ví dụ Throttle:
+
+```js
+function throttle(fn, limit) {
+  let lastCall = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastCall >= limit) {
+      lastCall = now;
+      fn.apply(this, args);
+    }
+  };
+}
+
+const handleScroll = throttle(function () {
+  console.log("Scrolling...");
+}, 1000);
+
+window.addEventListener("scroll", handleScroll);
+```
+
+---
+
+## 💡 Mẹo nhỏ
+
+- Dùng thư viện hỗ trợ như **Lodash** nếu bạn không muốn viết lại:
+  ```js
+  import debounce from 'lodash.debounce';
+  import throttle from 'lodash.throttle';
+  ```
+
+- Debounce thường dùng với `input`, `keyup`.
+- Throttle thường dùng với `scroll`, `mousemove`.
+
+---
+
+## 📌 Kết luận
+
+**Debounce** và **Throttle** đều giúp bạn viết **hiệu quả hơn**, **mượt hơn** và **tiết kiệm tài nguyên**. Biết áp dụng đúng lúc là bạn đã tiến gần đến cấp độ "dev ninja" rồi! 🥷
+
+---
