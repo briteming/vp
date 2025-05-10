@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { MarqueeGithub } from "@/components/ui/marquee";
 import { AnimatedShinyTextCV } from "@/components/ui/shiny";
 import { DATA } from "@/data/resume";
+import { WORK } from "@/data/work";
 import { ArrowRightIcon, ArrowUpToLine } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
@@ -105,7 +106,7 @@ export default function Page() {
               Kinh nghiệm làm việc
             </h2>
           </BlurFade>
-          {DATA.work.map((work, id) => (
+          {WORK.map((work, id) => (
             <BlurFade
               key={work.company}
               delay={BLUR_FADE_DELAY * 6 + id * 0.05}
@@ -120,6 +121,7 @@ export default function Page() {
                 badges={work.badges}
                 period={`${work.start} - ${work.end ?? "Present"}`}
                 description={work.description}
+                projects={work.projects}
               />
             </BlurFade>
           ))}

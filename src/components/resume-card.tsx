@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, CodeXml } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -18,6 +18,7 @@ interface ResumeCardProps {
   badges?: readonly string[];
   period: string;
   description?: string;
+  projects?: any[];
 }
 export const ResumeCard = ({
   logoUrl,
@@ -28,6 +29,7 @@ export const ResumeCard = ({
   badges,
   period,
   description,
+  projects,
 }: ResumeCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -86,7 +88,7 @@ export const ResumeCard = ({
             </div>
             {subtitle && <div className="font-sans text-xs">{subtitle}</div>}
           </CardHeader>
-          {description && (
+          {projects && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{
@@ -98,9 +100,23 @@ export const ResumeCard = ({
                 duration: 0.7,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="mt-2 text-xs sm:text-sm"
+              className="mt-2 "
             >
-              {description}
+              {projects.map((item, index) => (
+                <div className="relative" key={index}>
+                  <p className="flex  mt-5 justify-between after:content-[''] after:w-[1px] after:h-[90%] after:bg-gray-700 after:absolute after:top-10 after:left-3">
+                    <span className="flex gap-2 items-center">
+                      <CodeXml /> {item.title}
+                    </span>{" "}
+                    <span className="text-xs">
+                      {item.time_start} - {item.time_end}
+                    </span>
+                  </p>
+                  <div className="ms-8 prose dark:text-gray-200 text-gray-800 text-xs sm:text-sm">
+                    {item.description}
+                  </div>
+                </div>
+              ))}
             </motion.div>
           )}
         </div>

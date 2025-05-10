@@ -3,9 +3,9 @@ import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon, Code, PencilLine } from "lucide-react";
 
 export const DATA = {
-  updated_at: "Cập nhật lần cuối: 25/04/2025",
+  updated_at: "Cập nhật lần cuối: 11/05/2025",
   link_cv:
-    "https://www.canva.com/design/DAGfhyA9Znw/96peSQWOoS_jsnbpVdyx8Q/view?utm_content=DAGfhyA9Znw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h134ba3c6d0",
+    "https://www.canva.com/design/DAGlkPLXig4/ndIL7oP08KYrP9NuXIbzVg/view?utlId=h59c29a6ad9",
   name: "Vũ Văn Định",
   initials: "DV",
   url: "https://vuvandinh.id.vn",
@@ -64,13 +64,13 @@ Với mục tiêu liên tục phát triển và đạt được những thành t
       },
       email: {
         name: "Send Email",
-        url: "mailto:vuvandinh203@gmail.com",
+        url: "mailto:vuvandinh.work@gmail.com",
         icon: Icons.email,
         navbar: true,
       },
     },
     text: `
-- **Email:** [vuvandinh203@gmail.com](mailto:vuvandinh203@gmail.com)
+- **Email:** [vuvandinh.work@gmail.com](mailto:vuvandinh.work@gmail.com)
 - **GitHub:** [github.com/vuvandinh123](https://github.com/vuvandinh123)
 - **LinkedIn:** [linkedin.com/in/vuvandinh203](https://linkedin.com/in/vuvandinh203)
 - **Số điện thoại:** +84 333 583 800
@@ -79,49 +79,7 @@ Tôi rất mong được nghe phản hồi từ bạn và sẵn sàng trao đổ
     `,
   },
 
-  work: [
-    {
-      company: "Ngôi Sao 5S",
-      badges: ["Laravel", "PHP", "MySQL"],
-      href: "https://aviatek.com.vn",
-      location: "Remote",
-      title: "Laravel Intern",
-      logoUrl: "uploads/5s.png",
-      start: "Tháng 8 2024",
-      end: "Tháng 2 2025",
-      description: `
-      Phát triển và triển khai giao diện website dựa trên thiết kế từ Figma/PSD, đảm bảo tính phản hồi và tương thích trên nhiều trình duyệt.
-      Xây dựng các tính năng website bằng framework Laravel, bao gồm quản lý người dùng, quản lý tài khoản và thanh toán trực tuyến.
-      Phát triển và tùy chỉnh plugin WordPress theo yêu cầu.
-      Tối ưu hiệu suất website và SEO trên trang.
-      Triển khai và quản lý ứng dụng bằng Docker, PM2 và GitLab CI/CD.
-      `,
-    },
-    {
-      company: "Aviatek",
-      badges: ["React.js", "Node.js", "MySQL"],
-      href: "https://aviatek.com.vn",
-      location: "Remote",
-      title: "Remote",
-      logoUrl: "https://aviatek.com.vn/assets/logo2-6PtbS5Th.png",
-      start: "Tháng 5 2024",
-      end: "Tháng 7 2024",
-      description: `Tôi đã đảm nhận vai trò xây dựng và triển khai hệ thống web cho công ty, sử dụng React.js để phát triển giao diện người dùng, Node.js để xử lý logic phía máy chủ, và MySQL để quản lý cơ sở dữ liệu. Tôi thiết kế và triển khai một website với giao diện người dùng thân thiện, đồng thời phát triển API và cơ sở dữ liệu để đáp ứng các yêu cầu chức năng và đảm bảo hiệu suất cũng như bảo mật của hệ thống.`,
-    },
-    {
-      company: "Cafebizland",
-      href: "https://cafebizland.com",
-      badges: ["Wordpress"],
-      location: "Remote",
-      title: "Remote",
-      logoUrl:
-        "https://cafebizland.com/wp-content/uploads/2023/05/cropped-cropped-favi-192x192.jpg",
-      start: "Tháng 12 2023",
-      end: "Tháng 4 2024",
-      description:
-        "Trong vai trò bảo trì hệ thống giao diện WordPress, tôi chịu trách nhiệm cập nhật và duy trì website hiện tại, đồng thời thêm các chức năng mới để cải thiện trải nghiệm người dùng và mở rộng khả năng của trang web. Tôi đảm bảo rằng các tính năng mới được tích hợp một cách hiệu quả, tương thích với các phần mở rộng hiện có, và đáp ứng nhu cầu của người dùng và mục tiêu của doanh nghiệp.",
-    },
-  ],
+  work: [],
   education: [
     {
       school: "Cao Đẳng Công Thương TP. Hồ Chi Minh (HITC) ",
