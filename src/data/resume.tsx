@@ -3,7 +3,7 @@ import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon, Code, PencilLine } from "lucide-react";
 
 export const DATA = {
-  updated_at: "Cập nhật lần cuối: 11/05/2025",
+  updated_at: "Cập nhật lần cuối: 29/07/2025",
   link_cv:
     "https://www.canva.com/design/DAGlkPLXig4/ndIL7oP08KYrP9NuXIbzVg/view?utlId=h59c29a6ad9",
   name: "Vũ Văn Định",
