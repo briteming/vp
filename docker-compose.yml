@@ -1,10 +1,17 @@
-version: "3.8"
 services:
   portfolio:
     build: .
     container_name: portfolio_app
     restart: always
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"  # Chỉ expose trong mạng Docker, không map ra host
     environment:
       - NODE_ENV=production
+      - VIRTUAL_HOST=vuvandinh.id.vn,www.vuvandinh.id.vn
+      - LETSENCRYPT_HOST=vuvandinh.id.vn,www.vuvandinh.id.vn
+      - LETSENCRYPT_EMAIL=vuvandinh203@gmail.com
+    networks:
+      - webproxy
+networks:
+  webproxy:
+    external: true
