@@ -20,4 +20,8 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_KEY }}
           script: |
+            whoami
+            hostname
+            pwd
+            ls -la
             ~/deploy-scripts/deploy_portfolio.sh
