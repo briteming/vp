@@ -1,0 +1,200 @@
+---
+title: "Tìm hiểu cấu trúc file XML của Krpano và các thuộc tính"
+publishedAt: "2025-09-25"
+summary: "Krpano sử dụng file XML làm trung tâm để cấu hình scene, hotspot, view, action, và các thành phần khác. Mỗi file XML là một “bản đồ” cho panorama 360."
+---
+
+Krpano sử dụng **file XML** làm trung tâm để cấu hình **scene**, **hotspot**, **view**, **action**, và các thành phần khác. Mỗi file XML là một “bản đồ” cho panorama 360.
+
+---
+
+## **1️⃣ Thẻ `<krpano>`**
+
+Đây là **thẻ gốc**, bao quanh toàn bộ file XML. Một số thuộc tính chính:
+
+- `version`: Phiên bản krpano, ví dụ `1.22`
+- `title`: Tên tour, hiển thị trong metadata hoặc tab trình duyệt
+- `onstart`: Action/JS chạy khi krpano load xong
+
+**Ví dụ:**
+
+```xml
+<krpano version="1.22" title="Demo VR360" onstart="trace('Krpano loaded!');">
+```
+
+---
+
+## **2️⃣ Thẻ `<view>`**
+
+Định nghĩa **góc nhìn camera, FOV, zoom**.
+
+* `hlookat`: Góc nhìn ngang (từ -180 đến 180)
+* `vlookat`: Góc nhìn dọc (từ -90 đến 90)
+* `fov`: Field of View ban đầu (độ rộng góc nhìn)
+* `fovtype`: Kiểu FOV (`MFOV`, `HORIZONTAL_FIXED`, …)
+* `maxpixelzoom`: Giới hạn phóng to tối đa
+* `limitview`: `auto`, `true`, `false` – giới hạn góc nhìn
+
+
+**Ví dụ:**
+
+```xml
+<view hlookat="0" vlookat="0" fovtype="MFOV" fov="90" maxpixelzoom="2.0"/>
+```
+
+---
+
+## **3️⃣ Thẻ `<display>`**
+
+Cấu hình **giao diện, control, cảm biến thiết bị**.
+
+* `<control enabled="true"/>`: Cho phép hiển thị điều khiển (zoom, pan)
+* `<gyro enabled="true"/>`: Kích hoạt cảm biến thiết bị (mobile)
+* `<autorotate enabled="true" speed="2"/>`: Tự xoay panorama
+
+
+**Ví dụ:**
+
+```xml
+<display>
+    <control enabled="true"/>
+    <gyro enabled="true"/>
+</display>
+```
+
+---
+
+## **4️⃣ Thẻ `<scene>`**
+
+Một **scene** là một panorama hoặc video 360. Mỗi scene có thể có nhiều hotspot.
+
+* `name`: Tên duy nhất của scene
+* `title`: Tiêu đề hiển thị
+* `thumburl`: Hình thu nhỏ đại diện
+* `onstart`: Action chạy khi scene load
+* `multires`: Hỗ trợ multi-resolution (tiles)
+
+
+**Cấu trúc:**
+
+```xml
+<scene name="room1" title="Phòng 1">
+    <image>
+        <sphere url="images/room1.jpg"/>
+    </image>
+</scene>
+```
+
+* `<image>`: định nghĩa nguồn ảnh panorama.
+
+  * `<sphere url="..."/>` → ảnh equirectangular.
+  * `<cube url="room1_%s.jpg"/>` → cubemap (6 mặt).
+  * `<preview url="..."/>` → ảnh preview khi load chậm.
+
+---
+
+## **5️⃣ Thẻ `<hotspot>`**
+
+Hotspot là **điểm tương tác trong scene**. Khi click có thể chạy action hoặc chuyển scene.
+
+* `name`: Tên hotspot duy nhất
+* `ath` / `atv`: Tọa độ góc ngang/dọc trong scene
+* `style`: Kiểu hiển thị hotspot (có thể custom skin)
+* `onclick`: Action khi click (JS hoặc action)
+* `onhover`: Action khi hover chuột
+* `visible`: true/false – hiển thị hay không
+
+
+**Ví dụ:**
+
+```xml
+<hotspot 
+    name="hotspot1" 
+    ath="0" atv="0" 
+    style="skin_hotspotstyle" 
+    onclick="js(showAlert());"/>
+```
+
+---
+
+## **6️⃣ Thẻ `<action>`**
+
+Định nghĩa **chuỗi hành vi** khi hotspot click, scene load, hay custom event.
+
+* `name`: Tên action
+* `onclick` / `onstart`: Khi gọi action từ hotspot hoặc scene
+
+
+**Ví dụ:**
+
+```xml
+<action name="showAlert">
+    js(alert('Bạn vừa click hotspot!'));
+</action>
+```
+
+* Trong action bạn có thể dùng:
+
+  * `trace("log")` → ghi log debug.
+  * `tween()` → animation property.
+  * `loadscene(scene_name)` → chuyển scene.
+
+---
+
+## **7️⃣ Audio / Video 360**
+
+### **Audio**
+
+```xml
+<sound name="bg" url="audio/bg.mp3" loop="true"/>
+```
+
+* `name`: tên tham chiếu.
+* `url`: đường dẫn file audio.
+* `loop`: lặp lại.
+
+### **Video 360**
+
+```xml
+<video360 url="video.mp4" fov="90"/>
+```
+
+* `url`: đường dẫn video.
+* `fov`: góc nhìn ban đầu.
+
+---
+
+## **8️⃣ Gọi JavaScript từ krpano**
+
+* Dùng cú pháp `js(functionName())` trong hotspot hoặc action.
+* Ví dụ:
+
+```xml
+<hotspot name="hotspot1" ath="0" atv="0" style="skin_hotspotstyle" onclick="js(showAlert());"/>
+```
+
+Trong HTML/JS:
+
+```javascript
+function showAlert() {
+    alert('Bạn vừa click hotspot!');
+}
+```
+
+---
+
+## **9️⃣ Tóm lại là**
+
+1. `<krpano>` → thẻ gốc, metadata, onstart.
+2. `<view>` → góc nhìn camera, zoom, FOV.
+3. `<display>` → điều khiển giao diện, cảm biến, autorotate.
+4. `<scene>` → mỗi panorama/video 360.
+5. `<image>` → nguồn ảnh panorama.
+6. `<hotspot>` → điểm tương tác, onclick/onhover.
+7. `<action>` → định nghĩa hành vi custom, animation, chuyển scene.
+8. `<sound>` / `<video360>` → audio/video 360.
+9. `js()` → gọi hàm JS từ krpano.
+
+---
+
+
